@@ -4,11 +4,8 @@
 #09/22/2022
 #This script is meant to install Jenkins on a ubuntu ec2
 
-#Home directory
-Root='/home/ubuntu/'
-
 #Install jenkins logs
-LogFile="../InstallJenkins.log"
+LogFile="InstallJenkins.log"
 
 #Color output, don't change
 Red='\033[0;31m'
