@@ -2,15 +2,13 @@
 
 #Richard Deodutt
 #09/22/2022
-#This script is meant to deploy Jenkins on a ubuntu ec2
+#This script is meant to install Jenkins on a ubuntu ec2
 
 #Home directory
 Root='/home/ubuntu/'
 
-#Deployment logs
-LogFile="$Root""Deployment.log"
-
-RepositoryURL='https://github.com/RichardDeodutt/Deployment-2.git'
+#Install jenkins logs
+LogFile="../InstallJenkins.log"
 
 #Color output, don't change
 Red='\033[0;31m'
@@ -39,7 +37,7 @@ log(){
     #First arugment is the text to log
     Text=$1
     #Log with a timestamp
-    echo "`timestamp` || $Text" tee $LogFile
+    echo "`timestamp` || $Text" >> $LogFile
 }
 
 #Print to the console in colored text
@@ -95,42 +93,31 @@ aptinstalllog(){
     apt-get install $Pkg -y && log "$(printokay "Successfully installed $Pkg")" || (log "$(printerror "Failure installing $Pkg")" && exiterror)
 }
 
-#Install jenkins
-installjenkins(){
-    #Change into the deployment directory
-    cd $Root"/Deployment-2"
-    #Run the install jenkins script
-    installjenkins.sh && log "$(printokay "Successfully installed jenkins")" || (log "$(printerror "Failure installing jenkins")" && exiterror)
-    #Go back
-    cd ..
-}
-
-#Log the status of the deployment
-status(){
-    #Install Screenfetch
-    aptinstalllog "screenfetch"
-    #Log Jenkins Status
-    log "$(echo ; systemctl status jenkins --no-pager)"
-    #Log Jenkins Secret Password
-    log "$(printokay "$(cat /var/lib/jenkins/secrets/initialAdminPassword)")"
-    #Log Screenfetch
-    log "$(echo ; screenfetch)"
-}
-
 #The main function
 main(){
+    #Adding the Keyrings without user interaction
+    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && log "$(printokay "Successfully installed jenkins keyring")" || (log "$(printerror "Failure installing jenkins keyring")" && exiterror)
+
+    #Adding the repo to the sources of apt
+    sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && log "$(printokay "Successfully installed jenkins repo")" || (log "$(printerror "Failure installing jenkins repo")" && exiterror)
+
     #Update local apt repo database
     aptupdatelog
-    #Install git
-    aptinstalllog "git"
-    #Clone the repository
-    git clone $RepositoryURL && log "$(printokay "Successfully cloned $Pkg")" || (log "$(printerror "Failure cloning $Pkg")" && exiterror)
+
+    #Install java
+    aptinstalllog "default-jre"
+
     #Install jenkins
-    installjenkins
-    #Delay for 10 seconds for jenkins to load
-    sleep 10
-    #Init Status
-    status
+    aptinstalllog "jenkins"
+
+    #Install python3-pip
+    aptinstalllog "python3-pip"
+
+    #Install python3.10-venv
+    aptinstalllog "python3.10-venv"
+
+    #Start the Jenkins service
+    systemctl start jenkins && log "$(printokay "Systemctl jenkins started")" || (log "$(printerror "Failure to start jenkins")" && exiterror)
 }
 
 #Call the main function
