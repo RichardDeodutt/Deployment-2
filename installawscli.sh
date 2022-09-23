@@ -25,10 +25,10 @@ main(){
     aptinstalllog "unzip"
 
     #Curl the package of the AWS CLI
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && logokay "Successfully curled the AWS CLI" || { logerror "Failure curling the AWS CLI" && exiterror ; }
+    curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && logokay "Successfully curled the AWS CLI" || { logerror "Failure curling the AWS CLI" && exiterror ; }
 
     #Unzip the AWS CLI package
-    unzip awscliv2.zip -q && logokay "Successfully unzipped the AWS CLI" || { logerror "Failure unzipping the AWS CLI" && exiterror ; }
+    unzip -q awscliv2.zip && logokay "Successfully unzipped the AWS CLI" || { logerror "Failure unzipping the AWS CLI" && exiterror ; }
 
     #Install the AWS CLI if not already
     ./aws/install > /dev/null 2>&1 && log "$(printokay "Successfully Installed the AWS CLI")" || { log "$(printerror "Failure Installing the AWS CLI")" && exiterror ; }
