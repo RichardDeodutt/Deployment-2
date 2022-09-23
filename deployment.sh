@@ -181,7 +181,11 @@ status(){
     #Log Jenkins Status
     log "$(echo "Jenkins Status" ; systemctl status jenkins --no-pager)"
     #Log Jenkins Secret Password
-    logokay "$(echo "Secret Password" ; cat /var/lib/jenkins/secrets/initialAdminPassword)"
+    log "$(echo "Secret Password")"
+    logokay "$(cat /var/lib/jenkins/secrets/initialAdminPassword)"
+    #Log the AWS CLI version
+    log "$(echo "The AWS CLI Version")"
+    logokay "$(/usr/local/bin/aws --version)"
     #Log Screenfetch
     log "$(echo "Screenfetch" ; screenfetch)"
 }
