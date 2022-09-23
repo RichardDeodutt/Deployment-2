@@ -91,7 +91,7 @@ logokay(){
     #Argument 1 is the text to print
     Text=$1
     #Log with okay or green text color
-    log $(printokay "$Text")
+    log "$(printokay "$Text")"
 }
 
 #Log with print warning
@@ -99,7 +99,7 @@ logwarning(){
     #Argument 1 is the text to print
     Text=$1
     #Log with warning or yellow text color
-    log $(printwarning "$Text")
+    log "$(printwarning "$Text")"
 }
 
 #Log with print error
@@ -107,7 +107,7 @@ logerror(){
     #Argument 1 is the text to print
     Text=$1
     #Log with error or red text color
-    log $(printerror "$Text")
+    log "$(printerror "$Text")"
 }
 
 #Function to exit with a error code
