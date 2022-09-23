@@ -107,7 +107,7 @@ logerror(){
 #Function to exit with a error code
 exiterror(){
     #Log error
-    logerror "Something went wrong with installing jenkins. exiting"
+    logerror "Something went wrong with the installation. exiting"
     #Exit with error
     exit 1
 }

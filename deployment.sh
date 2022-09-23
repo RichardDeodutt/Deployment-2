@@ -113,7 +113,7 @@ logerror(){
 #Function to exit with a error code
 exiterror(){
     #Log error
-    logerror "Something went wrong with installing jenkins. exiting"
+    logerror "Something went wrong with the deployment. exiting"
     #Exit with error
     exit 1
 }
@@ -169,7 +169,7 @@ installawscli(){
     #Change into the git directory
     cd $Home/$RepositoryFolder
     #Run the install AWS CLI script
-    ./installawscli.sh && logokay "Successfully installed the AWS CLI through script" || { logerror "Failure installing the AWS CLI a through script" && exiterror ; }
+    ./installawscli.sh && logokay "Successfully installed the AWS CLI through script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; }
     #Go back to Home
     cd $Home
 }

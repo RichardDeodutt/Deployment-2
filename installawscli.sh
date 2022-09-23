@@ -31,7 +31,7 @@ main(){
     unzip -q awscliv2.zip && logokay "Successfully unzipped the AWS CLI" || { logerror "Failure unzipping the AWS CLI" && exiterror ; }
 
     #Install the AWS CLI if not already
-    ./aws/install > /dev/null 2>&1 && log "$(printokay "Successfully Installed the AWS CLI")" || { log "$(printerror "Failure Installing the AWS CLI")" && exiterror ; }
+    /usr/local/bin/aws --version > /dev/null 2>&1 || ./aws/install > /dev/null 2>&1 && log "$(printokay "Successfully Installed the AWS CLI")" || { log "$(printerror "Failure Installing the AWS CLI")" && exiterror ; }
 }
 
 #Log start
