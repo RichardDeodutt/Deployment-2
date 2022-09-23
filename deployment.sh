@@ -12,6 +12,8 @@ LogFile="$Root""Deployment.log"
 
 RepositoryURL='https://github.com/RichardDeodutt/Deployment-2.git'
 
+RepositoryFolder='Deployment-2'
+
 #Color output, don't change
 Red='\033[0;31m'
 Green='\033[0;32m'
@@ -98,11 +100,11 @@ aptinstalllog(){
 #Install jenkins
 installjenkins(){
     #Change into the deployment directory
-    cd $Root"/Deployment-2"
+    cd $Root$RepositoryFolder
     #Run the install jenkins script
-    installjenkins.sh && log "$(printokay "Successfully installed jenkins")" || { log "$(printerror "Failure installing jenkins")" && exiterror ; }
+    ./installjenkins.sh && log "$(printokay "Successfully installed jenkins")" || { log "$(printerror "Failure installing jenkins")" && exiterror ; }
     #Go back
-    cd ..
+    cd $Root
 }
 
 #Log the status of the deployment
@@ -124,7 +126,7 @@ main(){
     #Install git
     aptinstalllog "git"
     #Clone the repository
-    git clone $RepositoryURL && log "$(printokay "Successfully cloned $Pkg")" || { log "$(printerror "Failure cloning $Pkg")" && exiterror ; }
+    git clone $RepositoryURL > /dev/null 2>&1 && log "$(printokay "Successfully cloned $Pkg")" || { log "$(printerror "Failure cloning $Pkg")" && exiterror ; }
     #Install jenkins
     installjenkins
     #Delay for 10 seconds for jenkins to load
