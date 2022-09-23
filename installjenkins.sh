@@ -34,7 +34,7 @@ log(){
     #First arugment is the text to log
     Text=$1
     #Log with a timestamp
-    echo "`timestamp` || $Text" >> $LogFile
+    echo "`timestamp` || $Text" | tee -a $LogFile
 }
 
 #Print to the console in colored text
