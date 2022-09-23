@@ -118,6 +118,28 @@ exiterror(){
     exit 1
 }
 
+#Run as admin only check
+admincheck(){
+    #Check if the user has root, sudo or admin permissions
+    if [ $UID != 0 ]; then
+        #Send out a warning message
+        logwarning "Run again with admin permissions"
+        #Exit with a error message
+        exiterror
+    fi
+}
+
+#Run a command and exit if it has a error
+cmdrunexiterror(){
+    #Argument 1 is the command to run
+    Command=$1
+    #Argument 2 is the success message
+    Okay=$2
+    #Argument 3 is the failure message
+    Fail=$3
+    "$Command" /dev/null 2>&1 && logokay "$Okay" || { logerror "$Fail" && exiterror ; }
+}
+
 #Function to log if a apt update succeeded or failed
 aptupdatelog(){
     #Update local apt repo database
@@ -172,6 +194,9 @@ main(){
 
 #Log start
 logokay "Running deployment script"
+
+#Check for admin permissions
+admincheck
 
 #Call the main function
 main

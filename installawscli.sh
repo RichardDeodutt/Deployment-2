@@ -37,6 +37,9 @@ main(){
 #Log start
 logokay "Running install AWS CLI script"
 
+#Check for admin permissions
+admincheck
+
 #Call the main function
 main
 

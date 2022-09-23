@@ -43,6 +43,9 @@ main(){
 #Log start
 logokay "Running install jenkins script"
 
+#Check for admin permissions
+admincheck
+
 #Call the main function
 main
 

@@ -104,13 +104,23 @@ logerror(){
     printerror "$Text"
 }
 
-
 #Function to exit with a error code
 exiterror(){
     #Log error
-    log "$(printerror "Something went wrong with installing jenkins. exiting")"
+    logerror "Something went wrong with installing jenkins. exiting"
     #Exit with error
     exit 1
+}
+
+#Run as admin only check
+admincheck(){
+    #Check if the user has root, sudo or admin permissions
+    if [ $UID != 0 ]; then
+        #Send out a warning message
+        logwarning "Run again with admin permissions"
+        #Exit with a error message
+        exiterror
+    fi
 }
 
 #Run a command and exit if it has a error
