@@ -4,99 +4,22 @@
 #09/22/2022
 #This script is meant to install Jenkins on ubuntu
 
-#Installing jenkins logs
-LogFile="InstallJenkins.log"
+#Source or import standard.sh
+source standard.sh
 
-#Color output, don't change
-Red='\033[0;31m'
-Green='\033[0;32m'
-Yellow='\033[0;33m'
-#No color output, don't change
-NC='\033[0m'
+#Log file name for jenkins installation
+LogFileName="InstallJenkins.log"
 
-#Function to exit with a error code
-exiterror(){
-    #Log error
-    log "$(printerror "Something went wrong with installing jenkins. exiting")"
-    #Exit with error
-    exit 1
-}
-
-#function to get a timestamp
-timestamp(){
-    #Two Different Date and Time Styles
-    #echo $(date +"%m/%d/%Y %H:%M:%S %Z")
-    echo $(date +"%a %b %d %Y %I:%M:%S %p %Z")
-}
-
-#function to log text with a timestamp to a logfile
-log(){
-    #First arugment is the text to log
-    Text=$1
-    #Log with a timestamp
-    echo "`timestamp` || $Text" | tee -a $LogFile
-}
-
-#Print to the console in colored text
-colorprint(){
-    #Argument 1 is the text to print
-    Text=$1
-    #Arugment 2 is the color to print
-    Color=$2
-    printf "${Color}$Text${NC}\n"
-}
-
-#Print text in the green color for okay
-printokay(){
-    #Argument 1 is the text to print
-    Text=$1
-    #Green color to print
-    Color=$Green
-    #Echo the colored text
-    echo $(colorprint "$Text" $Color)
-}
-
-#Print text in the yellow color for warning
-printwarning(){
-    #Argument 1 is the text to print
-    Text=$1
-    #Yellow color to print
-    Color=$Yellow
-    #Echo the colored text
-    echo $(colorprint "$Text" $Color)
-}
-
-#Print text in the red color for error
-printerror(){
-    #Argument 1 is the text to print
-    Text=$1
-    #Red color to print
-    Color=$Red
-    #Echo the colored text
-    echo $(colorprint "$Text" $Color)
-}
-
-#Function to log if a apt update succeeded or failed
-aptupdatelog(){
-    #Update local apt repo database
-    apt-get update > /dev/null 2>&1 && log "$(printokay "Successfully updated repo list")" || { log "$(printerror "Failure updating repo list")" && exiterror ; }
-}
-
-#Function to log if a apt install succeeded or failed
-aptinstalllog(){
-    #First arugment is the apt package to log
-    Pkg=$1
-    #Install using apt-get if not already then log if it fails or not and exit if it fails
-    apt-get install $Pkg -y > /dev/null 2>&1 && log "$(printokay "Successfully installed $Pkg")" || { log "$(printerror "Failure installing $Pkg")" && exiterror ; }
-}
+#Set the log file location and name
+setlogs
 
 #The main function
 main(){
     #Adding the Keyrings if not already
-    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && log "$(printokay "Successfully installed jenkins keyring")" || { log "$(printerror "Failure installing jenkins keyring")" && exiterror ; }
+    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && logokay "Successfully installed jenkins keyring" || { logerror "Failure installing jenkins keyring" && exiterror ; }
 
     #Adding the repo to the sources of apt if not already
-    sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && log "$(printokay "Successfully installed jenkins repo")" || { log "$(printerror "Failure installing jenkins repo")" && exiterror ; }
+    sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && logokay "Successfully installed jenkins repo" || { logerror "Failure installing jenkins repo" && exiterror ; }
 
     #Update local apt repo database
     aptupdatelog
@@ -114,16 +37,17 @@ main(){
     aptinstalllog "python3.10-venv"
 
     #Start the Jenkins service if not already
-    systemctl start jenkins && log "$(printokay "Successfully started systemctl jenkins")" || { log "$(printerror "Failure starting jenkins")" && exiterror ; }
+    systemctl start jenkins && logokay "Successfully started systemctl jenkins" || { logerror "Failure starting jenkins" && exiterror ; }
 }
 
 #Log start
-log "$(printokay "Running install jenkins script")"
+logokay "Running install jenkins script"
 
 #Call the main function
 main
 
 #Log successs
-log "$(printokay "Successfully ran install jenkins script")"
+logokay "Successfully ran install jenkins script"
+
 #Exit successs
 exit 0
