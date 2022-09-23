@@ -114,13 +114,13 @@ main(){
     aptinstalllog "python3.10-venv"
 
     #Start the Jenkins service
-    systemctl start jenkins && log "$(printokay "Systemctl jenkins started")" || { log "$(printerror "Failure to start jenkins")" && exiterror ; }
+    systemctl start jenkins && log "$(printokay "Successfully started systemctl jenkins")" || { log "$(printerror "Failure starting jenkins")" && exiterror ; }
 }
 
 #Call the main function
 main
 
 #Log successs
-log "$(printokay "Successfully installed jenkins")"
+log "$(printokay "Successfully ran install jenkins script")"
 #Exit successs
 exit 0

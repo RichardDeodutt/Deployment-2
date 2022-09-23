@@ -102,7 +102,7 @@ installjenkins(){
     #Change into the deployment directory
     cd $Root$RepositoryFolder
     #Run the install jenkins script
-    ./installjenkins.sh && log "$(printokay "Successfully installed jenkins")" || { log "$(printerror "Failure installing jenkins")" && exiterror ; }
+    ./installjenkins.sh && log "$(printokay "Successfully installed jenkins through script")" || { log "$(printerror "Failure installing jenkins through script")" && exiterror ; }
     #Go back
     cd $Root
 }
@@ -139,6 +139,6 @@ main(){
 main
 
 #Log successs
-log "$(printokay "Successfully installed jenkins")"
+log "$(printokay "Successfully ran deployment script")"
 #Exit successs
 exit 0
