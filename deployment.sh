@@ -91,7 +91,7 @@ logokay(){
     #Argument 1 is the text to print
     Text=$1
     #Log with okay or green text color
-    printokay "$Text"
+    log $(printokay "$Text")
 }
 
 #Log with print warning
@@ -99,7 +99,7 @@ logwarning(){
     #Argument 1 is the text to print
     Text=$1
     #Log with warning or yellow text color
-    printwarning "$Text"
+    log $(printwarning "$Text")
 }
 
 #Log with print error
@@ -107,7 +107,7 @@ logerror(){
     #Argument 1 is the text to print
     Text=$1
     #Log with error or red text color
-    printerror "$Text"
+    log $(printerror "$Text")
 }
 
 #Function to exit with a error code
@@ -156,10 +156,20 @@ aptinstalllog(){
 
 #Install jenkins
 installjenkins(){
-    #Change into the deployment directory
+    #Change into the git directory
     cd $Home/$RepositoryFolder
     #Run the install jenkins script
-    ./installjenkins.sh && logokay "Successfully installed jenkins through script" || { logerror "Failure installing jenkins through script" && exiterror ; }
+    ./installjenkins.sh && logokay "Successfully installed jenkins through script" || { logerror "Failure installing jenkins through a script" && exiterror ; }
+    #Go back to Home
+    cd $Home
+}
+
+#Install the AWS CLI
+installjenkins(){
+    #Change into the git directory
+    cd $Home/$RepositoryFolder
+    #Run the install AWS CLI script
+    ./installawscli.sh && logokay "Successfully installed the AWS CLI through script" || { logerror "Failure installing the AWS CLI a through script" && exiterror ; }
     #Go back to Home
     cd $Home
 }
@@ -169,11 +179,11 @@ status(){
     #Install Screenfetch if not already
     aptinstalllog "screenfetch"
     #Log Jenkins Status
-    log "$(echo "Jenkins Status"; systemctl status jenkins --no-pager)"
+    log "$(echo "Jenkins Status" ; systemctl status jenkins --no-pager)"
     #Log Jenkins Secret Password
-    logokay "$(cat /var/lib/jenkins/secrets/initialAdminPassword)"
+    logokay "$(echo "Secret Password" ; cat /var/lib/jenkins/secrets/initialAdminPassword)"
     #Log Screenfetch
-    log "$(echo "Screenfetch"; screenfetch)"
+    log "$(echo "Screenfetch" ; screenfetch)"
 }
 
 #The main function

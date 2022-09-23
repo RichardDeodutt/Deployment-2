@@ -44,7 +44,7 @@ admincheck
 main
 
 #Log successs
-logokay "Successfully ran install AWS CLI script"
+logokay "Ran install AWS CLI script successfully"
 
 #Exit successs
 exit 0
