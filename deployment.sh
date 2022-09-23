@@ -5,7 +5,7 @@
 #This script is meant to deploy Jenkins on a ubuntu ec2
 
 #Home directory
-Home=$HOME
+Home='/home/ubuntu'
 
 #Log file name
 LogFileName="Deployment.log"
@@ -157,7 +157,7 @@ aptinstalllog(){
 #Install jenkins
 installjenkins(){
     #Change into the deployment directory
-    cd $Home$RepositoryFolder
+    cd $Home/$RepositoryFolder
     #Run the install jenkins script
     ./installjenkins.sh && logokay "Successfully installed jenkins through script" || { logerror "Failure installing jenkins through script" && exiterror ; }
     #Go back to Home
