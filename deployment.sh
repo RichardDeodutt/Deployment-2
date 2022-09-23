@@ -165,7 +165,7 @@ installjenkins(){
 }
 
 #Install the AWS CLI
-installjenkins(){
+installawscli(){
     #Change into the git directory
     cd $Home/$RepositoryFolder
     #Run the install AWS CLI script
@@ -196,6 +196,8 @@ main(){
     git clone $RepositoryURL > /dev/null 2>&1 && logokay "Successfully cloned $Pkg" || { logerror "Failure cloning $Pkg" && exiterror ; }
     #Install jenkins if not already
     installjenkins
+    #Install the AWS CLI if not already
+    installawscli
     #Delay for 10 seconds for jenkins to load
     sleep 10
     #Init Status
