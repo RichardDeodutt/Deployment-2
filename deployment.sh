@@ -159,7 +159,7 @@ installjenkins(){
     #Change into the git directory
     cd $Home/$RepositoryFolder
     #Run the install jenkins script
-    ./installjenkins.sh && logokay "Successfully installed jenkins through script" || { logerror "Failure installing jenkins through a script" && exiterror ; }
+    ./installjenkins.sh && logokay "Successfully installed jenkins through a script" || { logerror "Failure installing jenkins through a script" && exiterror ; }
     #Go back to Home
     cd $Home
 }
@@ -169,7 +169,7 @@ installawscli(){
     #Change into the git directory
     cd $Home/$RepositoryFolder
     #Run the install AWS CLI script
-    ./installawscli.sh && logokay "Successfully installed the AWS CLI through script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; }
+    ./installawscli.sh && logokay "Successfully installed the AWS CLI through a script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; }
     #Go back to Home
     cd $Home
 }
@@ -218,7 +218,7 @@ admincheck
 main
 
 #Log successs
-logokay "Successfully ran deployment script"
+logokay "Successfully ran the deployment script"
 
 #Exit successs
 exit 0

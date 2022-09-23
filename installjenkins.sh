@@ -50,7 +50,7 @@ admincheck
 main
 
 #Log successs
-logokay "Ran install jenkins script successfully"
+logokay "Ran the install jenkins script successfully"
 
 #Exit successs
 exit 0
