@@ -39,7 +39,7 @@ log(){
     #First arugment is the text to log
     Text=$1
     #Log with a timestamp
-    echo "`timestamp` || $Text" tee $LogFile
+    echo "`timestamp` || $Text" | tee $LogFile
 }
 
 #Print to the console in colored text
@@ -84,7 +84,7 @@ printerror(){
 #Function to log if a apt update succeeded or failed
 aptupdatelog(){
     #Update local apt repo database
-    apt-get update && log "$(printokay "Successfully updated repo list")" || (log "$(printerror "Failure updating repo list")" && exiterror)
+    apt-get update > /dev/null 2>&1 && log "$(printokay "Successfully updated repo list")" || { log "$(printerror "Failure updating repo list")" && exiterror ; }
 }
 
 #Function to log if a apt install succeeded or failed
@@ -92,7 +92,7 @@ aptinstalllog(){
     #First arugment is the apt package to log
     Pkg=$1
     #Install using apt-get then log if it fails or not and exit if it fails
-    apt-get install $Pkg -y && log "$(printokay "Successfully installed $Pkg")" || (log "$(printerror "Failure installing $Pkg")" && exiterror)
+    apt-get install $Pkg -y > /dev/null 2>&1 && log "$(printokay "Successfully installed $Pkg")" || { log "$(printerror "Failure installing $Pkg")" && exiterror ; }
 }
 
 #Install jenkins
@@ -100,7 +100,7 @@ installjenkins(){
     #Change into the deployment directory
     cd $Root"/Deployment-2"
     #Run the install jenkins script
-    installjenkins.sh && log "$(printokay "Successfully installed jenkins")" || (log "$(printerror "Failure installing jenkins")" && exiterror)
+    installjenkins.sh && log "$(printokay "Successfully installed jenkins")" || { log "$(printerror "Failure installing jenkins")" && exiterror ; }
     #Go back
     cd ..
 }
@@ -110,11 +110,11 @@ status(){
     #Install Screenfetch
     aptinstalllog "screenfetch"
     #Log Jenkins Status
-    log "$(echo ; systemctl status jenkins --no-pager)"
+    log "$(echo "Jenkins Status"; systemctl status jenkins --no-pager)"
     #Log Jenkins Secret Password
     log "$(printokay "$(cat /var/lib/jenkins/secrets/initialAdminPassword)")"
     #Log Screenfetch
-    log "$(echo ; screenfetch)"
+    log "$(echo "Screenfetch"; screenfetch)"
 }
 
 #The main function
@@ -124,7 +124,7 @@ main(){
     #Install git
     aptinstalllog "git"
     #Clone the repository
-    git clone $RepositoryURL && log "$(printokay "Successfully cloned $Pkg")" || (log "$(printerror "Failure cloning $Pkg")" && exiterror)
+    git clone $RepositoryURL && log "$(printokay "Successfully cloned $Pkg")" || { log "$(printerror "Failure cloning $Pkg")" && exiterror ; }
     #Install jenkins
     installjenkins
     #Delay for 10 seconds for jenkins to load

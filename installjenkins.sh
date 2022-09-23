@@ -79,7 +79,7 @@ printerror(){
 #Function to log if a apt update succeeded or failed
 aptupdatelog(){
     #Update local apt repo database
-    apt-get update && log "$(printokay "Successfully updated repo list")" || (log "$(printerror "Failure updating repo list")" && exiterror)
+    apt-get update > /dev/null 2>&1 && log "$(printokay "Successfully updated repo list")" || { log "$(printerror "Failure updating repo list")" && exiterror ; }
 }
 
 #Function to log if a apt install succeeded or failed
@@ -87,16 +87,16 @@ aptinstalllog(){
     #First arugment is the apt package to log
     Pkg=$1
     #Install using apt-get then log if it fails or not and exit if it fails
-    apt-get install $Pkg -y && log "$(printokay "Successfully installed $Pkg")" || (log "$(printerror "Failure installing $Pkg")" && exiterror)
+    apt-get install $Pkg -y > /dev/null 2>&1 && log "$(printokay "Successfully installed $Pkg")" || { log "$(printerror "Failure installing $Pkg")" && exiterror ; }
 }
 
 #The main function
 main(){
     #Adding the Keyrings without user interaction
-    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && log "$(printokay "Successfully installed jenkins keyring")" || (log "$(printerror "Failure installing jenkins keyring")" && exiterror)
+    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && log "$(printokay "Successfully installed jenkins keyring")" || { log "$(printerror "Failure installing jenkins keyring")" && exiterror ; }
 
     #Adding the repo to the sources of apt
-    sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && log "$(printokay "Successfully installed jenkins repo")" || (log "$(printerror "Failure installing jenkins repo")" && exiterror)
+    sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && log "$(printokay "Successfully installed jenkins repo")" || { log "$(printerror "Failure installing jenkins repo")" && exiterror ; }
 
     #Update local apt repo database
     aptupdatelog
@@ -114,7 +114,7 @@ main(){
     aptinstalllog "python3.10-venv"
 
     #Start the Jenkins service
-    systemctl start jenkins && log "$(printokay "Systemctl jenkins started")" || (log "$(printerror "Failure to start jenkins")" && exiterror)
+    systemctl start jenkins && log "$(printokay "Systemctl jenkins started")" || { log "$(printerror "Failure to start jenkins")" && exiterror ; }
 }
 
 #Call the main function
