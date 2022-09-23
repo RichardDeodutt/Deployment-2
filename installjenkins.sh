@@ -2,9 +2,9 @@
 
 #Richard Deodutt
 #09/22/2022
-#This script is meant to install Jenkins on a ubuntu ec2
+#This script is meant to install Jenkins on ubuntu
 
-#Install jenkins logs
+#Installing jenkins logs
 LogFile="InstallJenkins.log"
 
 #Color output, don't change
@@ -86,36 +86,39 @@ aptupdatelog(){
 aptinstalllog(){
     #First arugment is the apt package to log
     Pkg=$1
-    #Install using apt-get then log if it fails or not and exit if it fails
+    #Install using apt-get if not already then log if it fails or not and exit if it fails
     apt-get install $Pkg -y > /dev/null 2>&1 && log "$(printokay "Successfully installed $Pkg")" || { log "$(printerror "Failure installing $Pkg")" && exiterror ; }
 }
 
 #The main function
 main(){
-    #Adding the Keyrings without user interaction
+    #Adding the Keyrings if not already
     wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && log "$(printokay "Successfully installed jenkins keyring")" || { log "$(printerror "Failure installing jenkins keyring")" && exiterror ; }
 
-    #Adding the repo to the sources of apt
+    #Adding the repo to the sources of apt if not already
     sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && log "$(printokay "Successfully installed jenkins repo")" || { log "$(printerror "Failure installing jenkins repo")" && exiterror ; }
 
     #Update local apt repo database
     aptupdatelog
 
-    #Install java
+    #Install java if not already
     aptinstalllog "default-jre"
 
-    #Install jenkins
+    #Install jenkins if not already
     aptinstalllog "jenkins"
 
-    #Install python3-pip
+    #Install python3-pip if not already
     aptinstalllog "python3-pip"
 
-    #Install python3.10-venv
+    #Install python3.10-venv if not already
     aptinstalllog "python3.10-venv"
 
-    #Start the Jenkins service
+    #Start the Jenkins service if not already
     systemctl start jenkins && log "$(printokay "Successfully started systemctl jenkins")" || { log "$(printerror "Failure starting jenkins")" && exiterror ; }
 }
+
+#Log start
+log "$(printokay "Running install jenkins script")"
 
 #Call the main function
 main

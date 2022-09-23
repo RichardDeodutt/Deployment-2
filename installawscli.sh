@@ -1,20 +1,11 @@
 #!/bin/bash
 
 #Richard Deodutt
-#09/22/2022
-#This script is meant to deploy Jenkins on a ubuntu ec2
+#09/23/2022
+#This script is meant to install the AWS CLI on ubuntu
 
-#Home directory
-Home='/home/ubuntu/'
-
-#Deployment logs
-LogFile="$Home""Deployment.log"
-
-#The Url of the repository to clone
-RepositoryURL='https://github.com/RichardDeodutt/Deployment-2.git'
-
-#The folder of the repository
-RepositoryFolder='Deployment-2'
+#Installing the AWS CLI logs
+LogFile="InstallAWSCLI.log"
 
 #Color output, don't change
 Red='\033[0;31m'
@@ -26,7 +17,7 @@ NC='\033[0m'
 #Function to exit with a error code
 exiterror(){
     #Log error
-    log "$(printerror "Something went wrong with installing jenkins. exiting")"
+    log "$(printerror "Something went wrong with installing the AWS CLI. exiting")"
     #Exit with error
     exit 1
 }
@@ -99,51 +90,34 @@ aptinstalllog(){
     apt-get install $Pkg -y > /dev/null 2>&1 && log "$(printokay "Successfully installed $Pkg")" || { log "$(printerror "Failure installing $Pkg")" && exiterror ; }
 }
 
-#Install jenkins
-installjenkins(){
-    #Change into the deployment directory
-    cd $Home$RepositoryFolder
-    #Run the install jenkins script
-    ./installjenkins.sh && log "$(printokay "Successfully installed jenkins through script")" || { log "$(printerror "Failure installing jenkins through script")" && exiterror ; }
-    #Go back to Home
-    cd $Home
-}
-
-#Log the status of the deployment
-status(){
-    #Install Screenfetch if not already
-    aptinstalllog "screenfetch"
-    #Log Jenkins Status
-    log "$(echo "Jenkins Status"; systemctl status jenkins --no-pager)"
-    #Log Jenkins Secret Password
-    log "$(printokay "$(cat /var/lib/jenkins/secrets/initialAdminPassword)")"
-    #Log Screenfetch
-    log "$(echo "Screenfetch"; screenfetch)"
-}
-
 #The main function
 main(){
     #Update local apt repo database
     aptupdatelog
-    #Install git if not already
-    aptinstalllog "git"
-    #Clone the repository
-    git clone $RepositoryURL > /dev/null 2>&1 && log "$(printokay "Successfully cloned $Pkg")" || { log "$(printerror "Failure cloning $Pkg")" && exiterror ; }
-    #Install jenkins if not already
-    installjenkins
-    #Delay for 10 seconds for jenkins to load
-    sleep 10
-    #Init Status
-    status
+
+    #Install curl if not already
+    aptinstalllog "curl"
+
+    #Install unzip if not already
+    aptinstalllog "unzip"
+
+    #Curl the package of the AWS CLI
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && log "$(printokay "Successfully curled the AWS CLI")" || { log "$(printerror "Failure curling the AWS CLI")" && exiterror ; }
+
+    #Unzip the AWS CLI package
+    unzip awscliv2.zip && log "$(printokay "Successfully unzipped the AWS CLI")" || { log "$(printerror "Failure unzipping the AWS CLI")" && exiterror ; }
+
+    #Install the AWS CLI if not already
+    ./aws/install && log "$(printokay "Successfully Installed the AWS CLI")" || { log "$(printerror "Failure Installing the AWS CLI")" && exiterror ; }
 }
 
 #Log start
-log "$(printokay "Running deployment script")"
+log "$(printokay "Running install AWS CLI script")"
 
 #Call the main function
 main
 
 #Log successs
-log "$(printokay "Successfully ran deployment script")"
+log "$(printokay "Successfully ran install AWS CLI script")"
 #Exit successs
 exit 0
