@@ -174,6 +174,16 @@ installawscli(){
     cd $Home
 }
 
+#Install the AWS EB CLI
+installawscli(){
+    #Change directory to the Scripts folder
+    cd $Home/$RepositoryFolder/Scripts/
+    #Run the install AWS EB CLI script
+    $Home/$RepositoryFolder/Scripts/installawsebcli.sh && logokay "Successfully installed the AWS EB CLI through a script" || { logerror "Failure installing the AWS EB CLI through a script" && exiterror ; }
+    #Change directory to the home folder
+    cd $Home
+}
+
 #Log the status of the deployment
 status(){
     #Install Screenfetch if not already
