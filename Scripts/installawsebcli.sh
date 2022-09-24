@@ -24,6 +24,9 @@ main(){
     #Install python3-pip if not already
     aptinstalllog "python3-pip"
 
+    #Change directory to the home folder
+    cd $Home
+
     #As the jenkins user install awsebcli with pip
     su - jenkins -c "pip install awsebcli --upgrade --user > /dev/null 2>&1" && logokay "Successfully installed the AWS EB CLI" || { logerror "Failure installing the AWS EB CLI" && exiterror ; }
 

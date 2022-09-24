@@ -209,9 +209,9 @@ main(){
     aptupdatelog
     #Install git if not already
     aptinstalllog "git"
-    #Clone the repository
     #Change directory to the home folder
     cd $Home
+    #Clone the repository
     git clone $RepositoryURL > /dev/null 2>&1 && logokay "Successfully cloned $Pkg" || { logerror "Failure cloning $Pkg" && exiterror ; }
     #Install jenkins if not already
     installjenkins
