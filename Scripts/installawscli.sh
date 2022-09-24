@@ -27,6 +27,9 @@ main(){
     #Install unzip if not already
     aptinstalllog "unzip"
 
+    #Change directory to the home folder
+    cd $Home
+
     #Curl the package of the AWS CLI
     curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && logokay "Successfully curled the AWS CLI" || { logerror "Failure curling the AWS CLI" && exiterror ; }
 
