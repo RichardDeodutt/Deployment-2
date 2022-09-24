@@ -30,8 +30,11 @@ main(){
     #Contents of the new .bashrc file
     bashrcfile='$PATH=$PATH:$HOME/.local/bin'
 
-    #As the jenkins user create a .bashrc file in the home folder and add to the path the location where awsebcli is installed
-    su - jenkins -c "cd && echo '\$PATH=\$PATH:\$HOME/.local/bin' > .bashrc" && logokay "Successfully added the AWS EB CLI to PATH" || { logerror "Failure adding the AWS EB CLI to PATH" && exiterror ; }
+    #As the jenkins user create a .bashrc file in the home folder
+    su - jenkins -c "cd && echo touch .bashrc" && logokay "Successfully added the AWS EB CLI to PATH" || { logerror "Failure adding the AWS EB CLI to PATH" && exiterror ; }
+
+    #Add to the path of the jenkins user the location where awsebcli is installed
+    echo $bashrcfile > '/var/lib/jenkins/.bashrc'
 }
 
 #Log start
