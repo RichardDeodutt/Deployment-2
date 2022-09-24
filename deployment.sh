@@ -175,7 +175,7 @@ installawscli(){
 }
 
 #Install the AWS EB CLI
-installawscli(){
+installawsebcli(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install AWS EB CLI script
@@ -210,11 +210,15 @@ main(){
     #Install git if not already
     aptinstalllog "git"
     #Clone the repository
+    #Change directory to the home folder
+    cd $Home
     git clone $RepositoryURL > /dev/null 2>&1 && logokay "Successfully cloned $Pkg" || { logerror "Failure cloning $Pkg" && exiterror ; }
     #Install jenkins if not already
     installjenkins
     #Install the AWS CLI if not already
     installawscli
+    #Install the AWS EB CLI if not already
+    installawsebcli
     #Delay for 10 seconds for jenkins to load
     sleep 10
     #Init Status
