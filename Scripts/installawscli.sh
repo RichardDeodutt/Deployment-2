@@ -5,7 +5,10 @@
 #This script is meant to install the AWS CLI on ubuntu
 
 #Source or import standard.sh
-source standard.sh
+source libstandard.sh
+
+#Home directory
+Home='/home/ubuntu'
 
 #Log file name for the AWS CLI installation
 LogFileName="InstallAWSCLI.log"

@@ -156,22 +156,14 @@ aptinstalllog(){
 
 #Install jenkins
 installjenkins(){
-    #Change into the git directory
-    cd $Home/$RepositoryFolder
     #Run the install jenkins script
-    ./installjenkins.sh && logokay "Successfully installed jenkins through a script" || { logerror "Failure installing jenkins through a script" && exiterror ; }
-    #Go back to Home
-    cd $Home
+    $Home/$RepositoryFolder/installjenkins.sh && logokay "Successfully installed jenkins through a script" || { logerror "Failure installing jenkins through a script" && exiterror ; }
 }
 
 #Install the AWS CLI
 installawscli(){
-    #Change into the git directory
-    cd $Home/$RepositoryFolder
     #Run the install AWS CLI script
-    ./installawscli.sh && logokay "Successfully installed the AWS CLI through a script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; }
-    #Go back to Home
-    cd $Home
+    $Home/$RepositoryFolder/installawscli.sh && logokay "Successfully installed the AWS CLI through a script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; }
 }
 
 #Log the status of the deployment
