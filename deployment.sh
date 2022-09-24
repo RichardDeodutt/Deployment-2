@@ -196,6 +196,9 @@ status(){
     #Log the AWS CLI version
     log "$(echo "The AWS CLI Version")"
     logokay "$(/usr/local/bin/aws --version)"
+    #Log the jenkins user's AWS EB CLI version
+    log "$(echo "The jenkins user's AWS EB CLI Version")"
+    logokay "$(su - jenkins -c 'eb --version')"
     #Log Screenfetch
     log "$(echo "Screenfetch" ; screenfetch)"
 }
