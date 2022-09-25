@@ -12,8 +12,8 @@ def test_fourofour_page():
 def test_go_page():
     #Request the page using get and save the response as a variable
     response = app.test_client().get('/go')
-    #Check if the returned response is a satus code 200 meaning okay that it should be
-    assert response.status_code == 200
+    #Check if the returned response is a satus code 302 meaning temporarily moved that it should be
+    assert response.status_code == 302
     #Check if the redirect page leads to 'http://google.com' that it should be
     assert response.location == 'http://google.com'
 
@@ -21,8 +21,8 @@ def test_go_page():
 def test_house_page():
     #Request the page using get and save the response as a variable
     response = app.test_client().get('/go')
-    #Check if the returned response is a satus code 200 meaning okay that it should be
-    assert response.status_code == 200
+    #Check if the returned response is a satus code 302 meaning temporarily moved that it should be
+    assert response.status_code == 302
     #Check if the redirect page contains 'house67_Cherry_Lane.jpg' which is the file name that it should be
     assert 'house67_Cherry_Lane.jpg' in response.location
 
