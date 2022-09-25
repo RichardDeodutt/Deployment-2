@@ -184,6 +184,16 @@ installawsebcli(){
     cd $Home
 }
 
+#Install the Cy Depends
+installcydepends(){
+    #Change directory to the Scripts folder
+    cd $Home/$RepositoryFolder/Scripts/
+    #Run the install install Cy Depends script
+    $Home/$RepositoryFolder/Scripts/installcydepends.sh && logokay "Successfully installed the Cy Depends through a script" || { logerror "Failure installing the Cy Depends through a script" && exiterror ; }
+    #Change directory to the home folder
+    cd $Home
+}
+
 #Log the status of the deployment
 status(){
     #Install Screenfetch if not already
@@ -219,6 +229,8 @@ main(){
     installawscli
     #Install the AWS EB CLI if not already
     installawsebcli
+    #Install the Cy Depends if not already
+    installcydepends
     #Delay for 10 seconds for jenkins to load
     sleep 10
     #Init Status

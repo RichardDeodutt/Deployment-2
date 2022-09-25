@@ -86,7 +86,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 ## Starting from scratch
 
-- You can use my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh) during EC2 creation by copying and pasting it in the userdata field to automate installing Jenkins, the AWS CLI and the AWS EB CLI on the 'jenkins' user. 
+- You can use my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh) during EC2 creation by copying and pasting it in the userdata field to automate installing Jenkins, the AWS CLI, the AWS EB CLI on the 'jenkins' user and the cy depends.
 
 - If the EC2 is created already you can run one of the commands below to run my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh). 
 
@@ -113,4 +113,9 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     - To install the AWS EB CLI as the 'jenkins' user. 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installawsebcli.sh && sudo chmod +x installawsebcli.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installawsebcli.sh
+        ```
+
+    - To install the Cy Depends.
+        ```
+        cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installcydepends.sh && sudo chmod +x installcydepends.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installcydepends.sh
         ```
