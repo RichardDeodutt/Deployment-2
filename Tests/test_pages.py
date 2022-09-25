@@ -20,7 +20,7 @@ def test_go_page():
 #Test the redirect function of the url shortener to a self hosted image file
 def test_house_page():
     #Request the page using get and save the response as a variable
-    response = app.test_client().get('/go')
+    response = app.test_client().get('/house')
     #Check if the returned response is a satus code 302 meaning temporarily moved that it should be
     assert response.status_code == 302
     #Check if the redirect page contains 'house67_Cherry_Lane.jpg' which is the file name that it should be
