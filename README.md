@@ -4,7 +4,7 @@ Set up a CI/CD pipeline from start to finish.
 
 Using Elastic Beanstalk and customizing the pipeline. 
 
-Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deployment_2) Flask app
+Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deployment_2) Flask app. 
 
 # Notes before starting
 
@@ -34,7 +34,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 ## Step 3: Connect GitHub to the Jenkins server
 
-- Create a personal access token in GitHub.
+- Create a personal access token in GitHub. 
 
 - Fork the [deployment repo](https://github.com/kura-labs-org/kuralabs_deployment_2) and using this repo connect it to the Jenkins server using the personal access token from GitHub by creating a Multibranch pipeline. 
 
@@ -88,9 +88,9 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - You can use my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh) during EC2 creation by copying and pasting it in the userdata field to automate installing Jenkins, the AWS CLI and the AWS EB CLI on the 'jenkins' user. 
 
-- If the EC2 is created already you can run one of the commands below to run my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh)
+- If the EC2 is created already you can run one of the commands below to run my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh). 
 
-    - If this is the first time deploying, run the command below
+    - If this is the first time deploying, run the command below. 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/deployment.sh && sudo chmod +x deployment.sh && sudo ./deployment.sh
         ```
@@ -100,17 +100,17 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
         ```
         cd && sudo rm -r Deployment-2 ; sudo rm -r aws ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/deployment.sh && sudo chmod +x deployment.sh && sudo ./deployment.sh
         ```
-- If you just want to install a specific part run the corresponding script below
+- If you just want to install a specific part run the corresponding script below.
 
-    - Install Jenkins
+    - To install Jenkins. 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installjenkins.sh && sudo chmod +x installjenkins.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installjenkins.sh
         ```
-    - Install the AWS CLI
+    - To install the AWS CLI. 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installawscli.sh && sudo chmod +x installawscli.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installawscli.sh
         ```
-    - Install the AWS EB CLI as the 'jenkins' user
+    - To install the AWS EB CLI as the 'jenkins' user. 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installawsebcli.sh && sudo chmod +x installawsebcli.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installawsebcli.sh
         ```
