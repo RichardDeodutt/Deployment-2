@@ -22,7 +22,7 @@ pipeline {
         }
         post{
           always {
-            junit 'pytest-reports/results.xml'
+            junit 'test-reports/pytest-results.xml'
           }
         }
       }
@@ -35,7 +35,7 @@ pipeline {
         }
         post{
           always {
-            junit 'pylint-reports/results.xml'
+            junit 'test-reports/pylint-results.xml'
           }
         }
       }
