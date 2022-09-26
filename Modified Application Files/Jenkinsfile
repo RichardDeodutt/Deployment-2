@@ -57,7 +57,7 @@ pipeline {
         steps {
           sh '''#!/bin/bash
             source testenv/bin/activate
-            /usr/bin/npx cypress run --spec cypress/integration/test.spec.js
+            NO_COLOR=1 /usr/bin/npx cypress run --spec cypress/integration/test.spec.js
             '''
         }
         post{
