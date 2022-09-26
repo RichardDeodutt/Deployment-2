@@ -5,7 +5,7 @@ pipeline {
         steps {
           sh '''#!/bin/bash
           source testenv/bin/activate
-          node --max-old-space-size=400 /usr/bin/npm install --save-dev cypress@8.7.0
+          node --max-old-space-size=400 /usr/bin/npm install --save-dev cypress@7.6.0
           /usr/bin/npx cypress verify
           '''
         }
