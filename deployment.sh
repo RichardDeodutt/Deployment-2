@@ -137,7 +137,7 @@ cmdrunexiterror(){
     Okay=$2
     #Argument 3 is the failure message
     Fail=$3
-    "$Command" /dev/null 2>&1 && logokay "$Okay" || { logerror "$Fail" && exiterror ; }
+    "$Command" > /dev/null 2>&1 && logokay "$Okay" || { logerror "$Fail" && exiterror ; }
 }
 
 #Function to log if a apt update succeeded or failed

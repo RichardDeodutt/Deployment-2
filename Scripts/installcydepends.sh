@@ -59,6 +59,9 @@ main(){
 
     #Install xvfb if not already
     aptinstalllog "xvfb"
+
+    #Added the jenkins user to dbus access or cypress won't be able to work
+    echo "jenkins ALL = (root) NOPASSWD: /etc/init.d/dbus" | sudo tee-a /etc/sudoers.d/dbus > /dev/null 2>&1 && logokay "Successfully added the jenkins user to dbus access" || { logerror "Failure adding the the jenkins user to dbus access" && exiterror ; }
 }
 
 #Log start
