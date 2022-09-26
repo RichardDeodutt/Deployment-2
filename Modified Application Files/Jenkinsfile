@@ -26,6 +26,19 @@ pipeline {
           }
         }
       }
+      stage ('Cypress') {
+        steps {
+          sh '''#!/bin/bash
+            source testenv/bin/activate
+            cypress run --spec test.spec.js
+            '''
+        }
+        post{
+          always {
+            junit 'test-reports/cypress-results.xml'
+          }
+        }
+      }
       stage ('Pylint') {
         steps {
           sh '''#!/bin/bash
