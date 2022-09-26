@@ -1,8 +1,15 @@
 pipeline {
   agent any
-  tools {nodejs "Node14"}
     stages {
-      stage ('Build') {
+      stage ('Build Tools') {
+        steps {
+          sh '''#!/bin/bash
+          source testenv/bin/activate
+          node --max-old-space-size=400 $(which npm) install --save-dev cypress@8.7.0
+          '''
+        }
+      }
+      stage ('Build App') {
         steps {
           sh '''#!/bin/bash
           python3 -m venv testenv
@@ -31,7 +38,7 @@ pipeline {
         steps {
           sh '''#!/bin/bash
             source testenv/bin/activate
-            cypress run --spec test.spec.js
+            npx cypress run --spec cypress/integration/test.spec.js
             '''
         }
         post{
