@@ -145,7 +145,7 @@ aptinstalllog(){
     #First arugment is the apt package to log
     Pkg=$1
     #Install using apt-get if not already then log if it fails or not and exit if it fails
-    apt-get install $Pkg -y > /dev/null 2>&1 && logokay "Successfully installed $Pkg" || { logerror "Failure installing $Pkg" && exiterror ; }
+    DEBIAN_FRONTEND=noninteractive apt-get install $Pkg -y > /dev/null 2>&1 && logokay "Successfully installed $Pkg" || { logerror "Failure installing $Pkg" && exiterror ; }
 }
 
 #Don't Log successs as it goes to the Standard.log

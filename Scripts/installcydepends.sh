@@ -21,6 +21,12 @@ main(){
     #Update local apt repo database
     aptupdatelog
 
+    #Install nodejs if not already
+    aptinstalllog "nodejs"
+
+    #Install nodejs if not already
+    aptinstalllog "npm"
+
     #Install libgtk2.0-0 if not already
     aptinstalllog "libgtk2.0-0"
 
