@@ -34,19 +34,6 @@ pipeline {
           }
         }
       }
-      stage ('Cypress') {
-        steps {
-          sh '''#!/bin/bash
-            source testenv/bin/activate
-            npx cypress run --spec cypress/integration/test.spec.js
-            '''
-        }
-        post{
-          always {
-            junit 'test-reports/cypress-results.xml'
-          }
-        }
-      }
       stage ('Pylint') {
         steps {
           sh '''#!/bin/bash
@@ -63,6 +50,19 @@ pipeline {
       stage ('Deploy') {
         steps {
           sh '/var/lib/jenkins/.local/bin/eb deploy url-shortener-dev'
+        }
+      }
+      stage ('Cypress End to End Testing') {
+        steps {
+          sh '''#!/bin/bash
+            source testenv/bin/activate
+            npx cypress run --spec cypress/integration/test.spec.js
+            '''
+        }
+        post{
+          always {
+            junit 'test-reports/cypress-results.xml'
+          }
         }
       }
     }
