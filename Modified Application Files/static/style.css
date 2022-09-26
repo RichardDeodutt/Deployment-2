@@ -24,11 +24,21 @@ div.card {
     border-radius: 5px !important;
 }
 
+
+
 div.topnavbar {
     background-color: #202020 !important;
     color: #a04aff !important;
     border-bottom: 1px solid #a04aff !important;
 }
+
+div.card-header {
+    background-color: #202020 !important;
+    color: #a04aff !important;
+    border-bottom: 1px solid #a04aff !important;
+}
+
+
 
 input.form-control{
     background-color: #202020 !important;
