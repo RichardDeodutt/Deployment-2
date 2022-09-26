@@ -159,7 +159,7 @@ installjenkins(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install jenkins script
-    ./installjenkins.sh && logokay "Successfully installed jenkins through a script" || { logerror "Failure installing jenkins through a script" && exiterror ; }
+    ./installjenkins.sh && logokay "Successfully installed jenkins through a script" || { logerror "Failure installing jenkins through a script" && exiterror ; } ; cat InstallJenkins.log >> LogFile
     #Change directory to the home folder
     cd $Home
 }
@@ -169,7 +169,7 @@ installawscli(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install AWS CLI script
-    $Home/$RepositoryFolder/Scripts/installawscli.sh && logokay "Successfully installed the AWS CLI through a script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; }
+    $Home/$RepositoryFolder/Scripts/installawscli.sh && logokay "Successfully installed the AWS CLI through a script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; } ; cat InstallAWSCLI.log >> LogFile
     #Change directory to the home folder
     cd $Home
 }
@@ -179,7 +179,7 @@ installawsebcli(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install AWS EB CLI script
-    $Home/$RepositoryFolder/Scripts/installawsebcli.sh && logokay "Successfully installed the AWS EB CLI through a script" || { logerror "Failure installing the AWS EB CLI through a script" && exiterror ; }
+    $Home/$RepositoryFolder/Scripts/installawsebcli.sh && logokay "Successfully installed the AWS EB CLI through a script" || { logerror "Failure installing the AWS EB CLI through a script" && exiterror ; } ; cat InstallAWSEBCLI.log >> LogFile
     #Change directory to the home folder
     cd $Home
 }
@@ -189,28 +189,19 @@ installcydepends(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install install Cy Depends script
-    $Home/$RepositoryFolder/Scripts/installcydepends.sh && logokay "Successfully installed the Cy Depends through a script" || { logerror "Failure installing the Cy Depends through a script" && exiterror ; }
+    $Home/$RepositoryFolder/Scripts/installcydepends.sh && logokay "Successfully installed the Cy Depends through a script" || { logerror "Failure installing the Cy Depends through a script" && exiterror ; } ; cat InstallCyDepends.log >> LogFile
     #Change directory to the home folder
     cd $Home
 }
 
-#Log the status of the deployment
-status(){
-    #Install Screenfetch if not already
-    aptinstalllog "screenfetch"
-    #Log Jenkins Status
-    log "$(echo "Jenkins Status" ; systemctl status jenkins --no-pager)"
-    #Log Jenkins Secret Password if it exists(May not if jenkins is set up already and created a user on the webpage)
-    log "$(echo "Secret Password")"
-    cat /var/lib/jenkins/secrets/initialAdminPassword > /dev/null 2>&1 && logokay "$(cat /var/lib/jenkins/secrets/initialAdminPassword)" || logwarning "No Secret Password Found, May not be Needed"
-    #Log the AWS CLI version
-    log "$(echo "The AWS CLI Version")"
-    logokay "$(/usr/local/bin/aws --version)"
-    #Log the jenkins user's AWS EB CLI version
-    log "$(echo "The jenkins user's AWS EB CLI Version")"
-    logokay "$(su - jenkins -c 'cd && source .bashrc && eb --version')"
-    #Log Screenfetch
-    log "$(echo "Screenfetch" ; screenfetch)"
+#Check the status of the deployment
+statuscheck(){
+    #Change directory to the Scripts folder
+    cd $Home/$RepositoryFolder/Scripts/
+    #Run the status check script
+    $Home/$RepositoryFolder/Scripts/statuscheck.sh && logokay "Successfully checked the status through a script" || { logerror "Failure checking the status through a script" && exiterror ; } ; cat StatusCheck.log >> LogFile
+    #Change directory to the home folder
+    cd $Home
 }
 
 #The main function
@@ -233,8 +224,8 @@ main(){
     installcydepends
     #Delay for 10 seconds for jenkins to load
     sleep 10
-    #Init Status
-    status
+    #Status check
+    statuscheck
 }
 
 #Log start

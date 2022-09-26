@@ -86,7 +86,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 ## Starting from scratch
 
-- You can use my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh) during EC2 creation by copying and pasting it in the userdata field to automate installing Jenkins, the AWS CLI, the AWS EB CLI on the 'jenkins' user and the cy depends.
+- You can use my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh) during EC2 creation by copying and pasting it in the userdata field to automate installing Jenkins, the AWS CLI, the AWS EB CLI on the 'jenkins' user, the cy depends and the status check after a deployment.
 
 - If the EC2 is created already you can run one of the commands below to run my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh). 
 
@@ -118,4 +118,9 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     - To install the Cy Depends.
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installcydepends.sh && sudo chmod +x installcydepends.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installcydepends.sh
+        ```
+
+    - To check the status after a deployment.
+        ```
+        cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/statuscheck.sh && sudo chmod +x statuscheck.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./statuscheck.sh
         ```
