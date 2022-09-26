@@ -159,9 +159,11 @@ installjenkins(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install jenkins script
-    ./installjenkins.sh && logokay "Successfully installed jenkins through a script" || { logerror "Failure installing jenkins through a script" && exiterror ; } ; cat $Home/InstallJenkins.log >> LogFile
+    ./installjenkins.sh && logokay "Successfully installed jenkins through a script" || { logerror "Failure installing jenkins through a script" && exiterror ; }
     #Change directory to the home folder
     cd $Home
+    #Added the sub script logs to the deployment logs
+    cat InstallJenkins.log >> $LogFile
 }
 
 #Install the AWS CLI
@@ -169,9 +171,11 @@ installawscli(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install AWS CLI script
-    $Home/$RepositoryFolder/Scripts/installawscli.sh && logokay "Successfully installed the AWS CLI through a script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; } ; cat $Home/InstallAWSCLI.log >> LogFile
+    $Home/$RepositoryFolder/Scripts/installawscli.sh && logokay "Successfully installed the AWS CLI through a script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; }
     #Change directory to the home folder
     cd $Home
+    #Added the sub script logs to the deployment logs
+    cat InstallAWSCLI.log >> $LogFile
 }
 
 #Install the AWS EB CLI
@@ -179,9 +183,11 @@ installawsebcli(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install AWS EB CLI script
-    $Home/$RepositoryFolder/Scripts/installawsebcli.sh && logokay "Successfully installed the AWS EB CLI through a script" || { logerror "Failure installing the AWS EB CLI through a script" && exiterror ; } ; cat $Home/InstallAWSEBCLI.log >> LogFile
+    $Home/$RepositoryFolder/Scripts/installawsebcli.sh && logokay "Successfully installed the AWS EB CLI through a script" || { logerror "Failure installing the AWS EB CLI through a script" && exiterror ; }
     #Change directory to the home folder
     cd $Home
+    #Added the sub script logs to the deployment logs
+    cat InstallAWSEBCLI.log >> $LogFile
 }
 
 #Install the Cy Depends
@@ -189,9 +195,11 @@ installcydepends(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install install Cy Depends script
-    $Home/$RepositoryFolder/Scripts/installcydepends.sh && logokay "Successfully installed the Cy Depends through a script" || { logerror "Failure installing the Cy Depends through a script" && exiterror ; } ; cat $Home/InstallCyDepends.log >> LogFile
+    $Home/$RepositoryFolder/Scripts/installcydepends.sh && logokay "Successfully installed the Cy Depends through a script" || { logerror "Failure installing the Cy Depends through a script" && exiterror ; }
     #Change directory to the home folder
     cd $Home
+    #Added the sub script logs to the deployment logs
+    cat InstallCyDepends.log >> $LogFile
 }
 
 #Check the status of the deployment
@@ -199,9 +207,11 @@ statuscheck(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the status check script
-    $Home/$RepositoryFolder/Scripts/statuscheck.sh && logokay "Successfully checked the status through a script" || { logerror "Failure checking the status through a script" && exiterror ; } ; cat $Home/StatusCheck.log >> LogFile
+    $Home/$RepositoryFolder/Scripts/statuscheck.sh && logokay "Successfully checked the status through a script" || { logerror "Failure checking the status through a script" && exiterror ; }
     #Change directory to the home folder
     cd $Home
+    #Added the sub script logs to the deployment logs
+    cat StatusCheck.log >> $LogFile
 }
 
 #The main function
