@@ -21,16 +21,20 @@ main(){
     #Install Screenfetch if not already
     aptinstalllog "screenfetch"
     #Log Jenkins Status
-    log "$(echo "Jenkins Status" ; systemctl status jenkins --no-pager)"
+    log "$(echo "Jenkins Status")"
+    systemctl status jenkins --no-pager > /dev/null 2>&1 && log "$(echo ; systemctl status jenkins --no-pager)" || logerror "Can't Check the Status of Jenkins"
     #Log Jenkins Secret Password if it exists(May not if jenkins is set up already and created a user on the webpage)
     log "$(echo "Secret Password")"
     cat /var/lib/jenkins/secrets/initialAdminPassword > /dev/null 2>&1 && logokay "$(cat /var/lib/jenkins/secrets/initialAdminPassword)" || logwarning "No Secret Password Found, May not be Needed"
     #Log the AWS CLI version
     log "$(echo "The AWS CLI Version")"
-    logokay "$(/usr/local/bin/aws --version)"
+    aws --version > /dev/null 2>&1 && logokay "$(aws --version)" || logerror "Can't Check the version of the AWS CLI"
     #Log the jenkins user's AWS EB CLI version
     log "$(echo "The jenkins user's AWS EB CLI Version")"
-    logokay "$(su - jenkins -c 'cd && source .bashrc && eb --version')"
+    su - jenkins -c 'cd && source .bashrc && eb --version' > /dev/null 2>&1 && logokay "$(su - jenkins -c 'cd && source .bashrc && eb --version')" || logerror "Can't Check the version of the jenkins user's AWS EB CLI"
+    #Log the npm version
+    log "$(echo "The NPM Version")"
+    npm --version > /dev/null 2>&1 && logokay "$(npm --version)" || logerror "Can't Check the version of NPM"
     #Log Screenfetch
     log "$(echo "Screenfetch" ; screenfetch)"
 }
