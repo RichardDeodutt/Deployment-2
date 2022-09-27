@@ -35,6 +35,9 @@ main(){
 
     #Add to the path the .local/bin location where awsebcli is installed
     echo 'PATH=$PATH:$HOME/.local/bin' > $HOME/.bashrc && logokay "Successfully added the AWS EB CLI to the user's PATH" || { logerror "Failure adding the AWS EB CLI to the current user's PATH" && exiterror ; }
+
+    #Add it to path now also
+    source $HOME/.bashrc
 }
 
 #Log start
