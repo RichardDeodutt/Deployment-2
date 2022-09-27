@@ -37,7 +37,7 @@ main(){
     su - jenkins -c 'cd && source .bashrc && eb --version' > /dev/null 2>&1 && logokay "$(su - jenkins -c 'cd && source .bashrc && eb --version')" || logwarning "Can't Check the version of the jenkins user's AWS EB CLI"
     #Log the current user's AWS EB CLI version
     log "$(echo "The current user's AWS EB CLI Version")"
-    source .bashrc && eb --version > /dev/null 2>&1 && logokay "$(source .bashrc && eb --version)" || logwarning "Can't Check the version of the current user's AWS EB CLI"
+    source $HOME/.bashrc ; eb --version > /dev/null 2>&1 && logokay "$(source $HOME/.bashrc ; eb --version)" || logwarning "Can't Check the version of the current user's AWS EB CLI"
     #Log the node version
     log "$(echo "The Node Version")"
     npm --version > /dev/null 2>&1 && logokay "$(node --version)" || logwarning "Can't Check the version of Node"
