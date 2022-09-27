@@ -44,7 +44,7 @@ main(){
 }
 
 #Log start
-logokay "Running install jenkins script"
+logokay "Running the install jenkins script"
 
 #Check for admin permissions
 admincheck

@@ -41,7 +41,7 @@ main(){
 }
 
 #Log start
-logokay "Running install AWS CLI script"
+logokay "Running the install AWS CLI script"
 
 #Check for admin permissions
 admincheck

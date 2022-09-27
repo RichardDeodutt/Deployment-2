@@ -86,19 +86,19 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 ## Starting from scratch
 
-- You can use my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh) during EC2 creation by copying and pasting it in the userdata field to automate installing Jenkins, the AWS CLI, the AWS EB CLI on the 'jenkins' user, the cy depends and the status check after a deployment.
+- You can use my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/Deployment-Scripts/allinonedeployment.sh) during EC2 creation by copying and pasting it in the userdata field to automate installing Jenkins, the AWS CLI, the AWS EB CLI on the 'jenkins' user, the cy depends and the status check after a deployment.
 
-- If the EC2 is created already you can run one of the commands below to run my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/deployment.sh). 
+- If the EC2 is created already you can run one of the commands below to run my [deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/Deployment-Scripts/allinonedeployment.sh). 
 
     - If this is the first time deploying, run the command below. 
         ```
-        cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/deployment.sh && sudo chmod +x deployment.sh && sudo ./deployment.sh
+        cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/allinonedeployment.sh && sudo chmod +x allinonedeployment.sh && sudo ./allinonedeployment.sh
         ```
 
     - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-2' directory and the 'aws' directory created from the previous deployment.**
 
         ```
-        cd && sudo rm -r Deployment-2 ; sudo rm -r aws ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/deployment.sh && sudo chmod +x deployment.sh && sudo ./deployment.sh
+        cd && sudo rm -r Deployment-2 ; sudo rm -r aws ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/allinonedeployment.sh && sudo chmod +x allinonedeployment.sh && sudo ./allinonedeployment.sh
         ```
 - If you just want to install a specific part run the corresponding script below.
 

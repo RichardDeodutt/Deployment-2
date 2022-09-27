@@ -62,7 +62,7 @@ main(){
 }
 
 #Log start
-logokay "Running install Cy Depends script"
+logokay "Running the install Cy Depends script"
 
 #Check for admin permissions
 admincheck

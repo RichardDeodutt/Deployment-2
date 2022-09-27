@@ -38,7 +38,7 @@ main(){
 }
 
 #Log start
-logokay "Running install AWS EB CLI script"
+logokay "Running the install AWS EB CLI script"
 
 #Check for admin permissions
 admincheck

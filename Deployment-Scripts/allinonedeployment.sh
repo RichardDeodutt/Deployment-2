@@ -2,13 +2,13 @@
 
 #Richard Deodutt
 #09/22/2022
-#This script is meant to deploy Jenkins on a ubuntu ec2
+#This script is meant to deploy Jenkins and everything to run the tests on the Jenkins server, a all in one on a ubuntu ec2
 
 #Home directory
 Home='/home/ubuntu'
 
 #Log file name
-LogFileName="Deployment.log"
+LogFileName="AllInOneDeployment.log"
 
 #Log file location and name
 LogFile=$Home/$LogFileName
@@ -223,7 +223,7 @@ main(){
     #Change directory to the home folder
     cd $Home
     #Clone the repository
-    git clone $RepositoryURL > /dev/null 2>&1 && logokay "Successfully cloned $Pkg" || { logerror "Failure cloning $Pkg" && exiterror ; }
+    git clone $RepositoryURL > /dev/null 2>&1 && logokay "Successfully cloned $RepositoryURL" || logwarning "Failure cloning $RepositoryURL"
     #Install jenkins if not already
     installjenkins
     #Install the AWS CLI if not already
@@ -239,7 +239,7 @@ main(){
 }
 
 #Log start
-logokay "Running deployment script"
+logokay "Running the all in one deployment script"
 
 #Check for admin permissions
 admincheck
@@ -248,7 +248,7 @@ admincheck
 main
 
 #Log successs
-logokay "Successfully ran the deployment script"
+logokay "Successfully ran the all in one deployment script"
 
 #Exit successs
 exit 0
