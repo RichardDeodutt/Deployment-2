@@ -31,7 +31,7 @@ main(){
     su - jenkins -c "pip install awsebcli --upgrade --user > /dev/null 2>&1" && logokay "Successfully installed the AWS EB CLI for the jenkin's user" || { logerror "Failure installing the AWS EB CLI for the jenkin's user" && exiterror ; }
 
     #As the jenkins user create a .bashrc file in the home folder
-    su - jenkins -c "cd && touch .bashrc" && logokay "Successfully created .bashrc for the jenkin's user" || { logerror "Failure creating .bashrc for jenkin's user" && exiterror ; }
+    su - jenkins -c "cd && touch .bashrc" && logokay "Successfully created .bashrc for the jenkin's user" || { logerror "Failure creating .bashrc for the jenkin's user" && exiterror ; }
 
     #Add to the path of the jenkins user the location where awsebcli is installed
     echo 'PATH=$PATH:$HOME/.local/bin' > '/var/lib/jenkins/.bashrc' && logokay "Successfully added the AWS EB CLI to jenkin's user's PATH" || { logerror "Failure adding the AWS EB CLI to jenkin's user's PATH" && exiterror ; }

@@ -2,7 +2,7 @@
 
 #Richard Deodutt
 #09/24/2022
-#This script is meant to install the AWS EB CLI on ubuntu
+#This script is meant to install the AWS EB CLI on the ubuntu user on ubuntu
 
 #Source or import standard.sh
 source libstandard.sh
@@ -27,17 +27,17 @@ main(){
     #Change directory to the home folder
     cd $Home
 
-    #Install awsebcli with pip to the current user only
-    pip install awsebcli --upgrade --user > /dev/null 2>&1 && logokay "Successfully installed the AWS EB CLI" || { logerror "Failure installing the AWS EB CLI" && exiterror ; }
+    #As the ubuntu user install awsebcli with pip
+    su - ubuntu -c "pip install awsebcli --upgrade --user > /dev/null 2>&1" && logokay "Successfully installed the AWS EB CLI for the ubuntu's user" || { logerror "Failure installing the AWS EB CLI for the ubuntu's user" && exiterror ; }
 
-    #As the current user create a .bashrc file in the home folder if it does not exist
-    cd && touch .bashrc && logokay "Successfully created .bashrc for the current user if it does not exist" || { logerror "Failure creating .bashrc for the current user" && exiterror ; }
+    #As the ubuntu user create a .bashrc file in the home folder
+    su - ubuntu -c "cd && touch .bashrc" && logokay "Successfully created .bashrc for the ubuntu's user" || { logerror "Failure creating .bashrc for the ubuntu's user" && exiterror ; }
 
-    #Add to the path the .local/bin location where awsebcli is installed
-    echo 'PATH=$PATH:$HOME/.local/bin' > $HOME/.bashrc && logokay "Successfully added the AWS EB CLI to the user's PATH" || { logerror "Failure adding the AWS EB CLI to the current user's PATH" && exiterror ; }
+    #Add to the path of the ubuntu user the location where awsebcli is installed
+    echo 'PATH=$PATH:$HOME/.local/bin' > '/home/ubuntu/.bashrc' && logokay "Successfully added the AWS EB CLI to ubuntu's user's PATH" || { logerror "Failure adding the AWS EB CLI to ubuntu's user's PATH" && exiterror ; }
 
     #Add it to path now also
-    source $HOME/.bashrc
+    source /var/lib/jenkins/.bashrc
 }
 
 #Log start
