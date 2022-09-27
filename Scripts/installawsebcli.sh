@@ -27,14 +27,14 @@ main(){
     #Change directory to the home folder
     cd $Home
 
-    #As the jenkins user install awsebcli with pip
-    su - jenkins -c "pip install awsebcli --upgrade --user > /dev/null 2>&1" && logokay "Successfully installed the AWS EB CLI" || { logerror "Failure installing the AWS EB CLI" && exiterror ; }
+    #Install awsebcli with pip to the current user only
+    pip install awsebcli --upgrade --user > /dev/null 2>&1 && logokay "Successfully installed the AWS EB CLI" || { logerror "Failure installing the AWS EB CLI" && exiterror ; }
 
-    #As the jenkins user create a .bashrc file in the home folder
-    su - jenkins -c "cd && touch .bashrc" && logokay "Successfully created .bashrc for jenkins user" || { logerror "Failure creating .bashrc for jenkins user" && exiterror ; }
+    #As the current user create a .bashrc file in the home folder if it does not exist
+    cd && touch .bashrc && logokay "Successfully created .bashrc for the current user if it does not exist" || { logerror "Failure creating .bashrc for the current user" && exiterror ; }
 
-    #Add to the path of the jenkins user the location where awsebcli is installed
-    echo 'PATH=$PATH:$HOME/.local/bin' > '/var/lib/jenkins/.bashrc' && logokay "Successfully added the AWS EB CLI to jenkins user's PATH" || { logerror "Failure adding the AWS EB CLI to jenkins user's PATH" && exiterror ; }
+    #Add to the path the .local/bin location where awsebcli is installed
+    echo 'PATH=$PATH:$HOME/.local/bin' > $HOME/.bashrc && logokay "Successfully added the AWS EB CLI to the user's PATH" || { logerror "Failure adding the AWS EB CLI to the current user's PATH" && exiterror ; }
 }
 
 #Log start

@@ -166,20 +166,20 @@ installjenkins(){
     cat InstallJenkins.log >> $LogFile
 }
 
-#Install the AWS CLI
+#Install the AWS CLI for the jenkins user
 installawscli(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
-    #Run the install AWS CLI script
-    $Home/$RepositoryFolder/Scripts/installawscli.sh && logokay "Successfully installed the AWS CLI through a script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; }
+    #Run the install Jenkins AWS CLI script
+    $Home/$RepositoryFolder/Scripts/installjenkinsawsebcli.sh && logokay "Successfully installed the AWS CLI for the jenkin's user through a script" || { logerror "Failure installing the AWS CLI for the Jenkin's user through a script" && exiterror ; }
     #Change directory to the home folder
     cd $Home
     #Added the sub script logs to the deployment logs
-    cat InstallAWSCLI.log >> $LogFile
+    cat InstallJenkinsAWSEBCLI.log >> $LogFile
 }
 
 #Install the AWS EB CLI
-installawsebcli(){
+installjenkinsawsebcli(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install AWS EB CLI script
@@ -228,8 +228,8 @@ main(){
     installjenkins
     #Install the AWS CLI if not already
     installawscli
-    #Install the AWS EB CLI if not already
-    installawsebcli
+    #Install the AWS EB CLI for the jenkin's user if not already
+    installjenkinsawsebcli
     #Install the Cy Depends if not already
     installcydepends
     #Delay for 10 seconds for jenkins to load
