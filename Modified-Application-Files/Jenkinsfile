@@ -52,9 +52,12 @@ pipeline {
       }
       stage ('Deploy') {
         steps {
-          sh 'eb init --region ap-northeast-1 --platform python-3.8 url-shortener'
-          sh 'eb create url-shortener-dev -c url-shortener-dev -p python-3.8'
-          sh '/var/lib/jenkins/.local/bin/eb deploy url-shortener-dev'
+          sh '''#!/bin/bash
+            InitCMD='eb init --region ap-northeast-1 --platform python-3.8 url-shortener'
+            CreateCMD='eb create url-shortener-dev -c url-shortener-dev -p python-3.8'
+            DeployCMD='/var/lib/jenkins/.local/bin/eb deploy url-shortener-dev'
+            $InitCMD && $CreateCMD || $DeployCMD
+            '''
         }
       }
       stage ('Cypress E2E') {
