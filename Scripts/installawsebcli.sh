@@ -37,7 +37,7 @@ main(){
     echo 'PATH=$PATH:$HOME/.local/bin' > '/home/ubuntu/.bashrc' && logokay "Successfully added the AWS EB CLI to ubuntu's user's PATH" || { logerror "Failure adding the AWS EB CLI to ubuntu's user's PATH" && exiterror ; }
 
     #Add it to path now also
-    source /var/lib/jenkins/.bashrc
+    source '/home/ubuntu/.bashrc'
 }
 
 #Log start
