@@ -159,7 +159,7 @@ installagent(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install agent script
-    ./installagent.sh && logokay "Successfully installed agent through a script" || { logerror "Failure installing agent through a script" && exiterror ; }
+    $Home/$RepositoryFolder/Scripts/installagent.sh && logokay "Successfully installed agent through a script" || { logerror "Failure installing agent through a script" && exiterror ; }
     #Change directory to the home folder
     cd $Home
     #Added the sub script logs to the deployment logs

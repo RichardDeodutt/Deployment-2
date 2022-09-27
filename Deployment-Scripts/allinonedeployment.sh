@@ -159,7 +159,7 @@ installjenkins(){
     #Change directory to the Scripts folder
     cd $Home/$RepositoryFolder/Scripts/
     #Run the install jenkins script
-    ./installjenkins.sh && logokay "Successfully installed jenkins through a script" || { logerror "Failure installing jenkins through a script" && exiterror ; }
+    $Home/$RepositoryFolder/Scripts/installjenkins.sh && logokay "Successfully installed jenkins through a script" || { logerror "Failure installing jenkins through a script" && exiterror ; }
     #Change directory to the home folder
     cd $Home
     #Added the sub script logs to the deployment logs
