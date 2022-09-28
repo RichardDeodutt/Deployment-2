@@ -33,12 +33,6 @@ main(){
     #Install jenkins if not already
     aptinstalllog "jenkins"
 
-    #Install python3-pip if not already
-    aptinstalllog "python3-pip"
-
-    #Install python3.10-venv if not already
-    aptinstalllog "python3.10-venv"
-
     #Start the Jenkins service if not already
     systemctl start jenkins && logokay "Successfully started systemctl jenkins" || { logerror "Failure starting jenkins" && exiterror ; }
 }
