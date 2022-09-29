@@ -226,6 +226,8 @@ main(){
     git clone $RepositoryURL > /dev/null 2>&1 && logokay "Successfully cloned $RepositoryURL" || logwarning "Failure cloning $RepositoryURL"
     #Install jenkins if not already
     installjenkins
+    #Install python3.10-venv if not already
+    aptinstalllog "python3.10-venv"
     #Install the AWS CLI if not already
     installawscli
     #Install the AWS EB CLI for the jenkin's user if not already
