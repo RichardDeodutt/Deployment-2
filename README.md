@@ -44,6 +44,9 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - Create/Generate a [personal access token in GitHub](https://github.com/settings/tokens) for the Jenkins server and webhook. I added all the `repo`, `admin:repo_hook` and `notifications` permissions. 
 
+- 
+
+
 - Fork the [deployment repo](https://github.com/kura-labs-org/kuralabs_deployment_2) and using this repo connect it to the Jenkins server using the personal access token from GitHub by creating a Multibranch pipeline. 
 
 - After it passed Jenkin's clone, build, and test phases connect Jenkin's webhook to the GitHub repository. 
@@ -128,7 +131,6 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     - The Jenkins server should automatically create this agent and you only need to configure it correctly in the Jenkins server web interface to run the correct init script below. Replace the aws configurations with your `Eb-user` credentials and region. 
 
         ```
-
         cd && sudo rm -r * ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
 
         #Add it to path now also
@@ -141,15 +143,12 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
         #Exit successs
         exit 0
-
         ```
 
     - If the EC2 is created already you can run the commands below to run my [agent deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/Deployment-Scripts/agentdeployment.sh). 
 
         ```
-
         cd && sudo rm -r * ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
-
         ```
 
 ### Install parts separately
