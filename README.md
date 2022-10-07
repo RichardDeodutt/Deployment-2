@@ -359,11 +359,15 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 ## Step 8: Build Test and Deploy the application to Elastic Beanstalk
 
-- In the Jenkins server homepage click on the pipeline created and build it if it isn't building and or queued. This should build, test and deploy the application using elastic beanstalk so remember to take it down when done to avoid extra cost. 
+<details>
 
+<summary>Step by Step</summary>
 
+- In the Jenkins server homepage click on the pipeline created and `build it` if it isn't building and or queued. This should `build`, `test` and `deploy` the application using `elastic beanstalk` so remember to take it down when done to `avoid extra cost`. 
 
-## Tasks 1: Modify or add to the pipeline
+</details>
+
+## Task 1: Modify or add to the pipeline
 
 - Add another test. 
 
@@ -433,12 +437,12 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     <details>
 
-    <summary>Broke</summary>
+    <summary>Broken</summary>
 
     <br>
 
     <p align="center">
-    <a href="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Broke.png"><img src="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Broke.png" />
+    <a href="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Broken.png"><img src="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Broken.png" />
     </p>
 
     </details>
@@ -572,11 +576,23 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     </details>
 
-## Step 11: Diagram the new pipeline
+## Task 2: Diagram the new pipeline
 
 - Create a diagram for the new pipeline. 
 
-## Step 12: Create documentation
+    <details>
+
+    <summary>Pipeline</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Pipeline.png"><img src="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Pipeline.png" />
+    </p>
+
+    </details>
+
+## Task 3: Create documentation
 
 - Create documentation of everything. 
 
@@ -776,4 +792,12 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 # Why?
 
+- I'm using a Jenkins agent so I can stick to only using T2Micro EC2s. One for the Jenkins server and one for the Jenkins agent doing the building, testing and deployment. 
+
+- I'm Using the Agent `Init script` instead of using the `Userdata` to set up the agent because the `Userdata` method might not be ready when the Jenkins server connects using SSH and it causes issues so this way works more `efficently` for `frequent` `Launching` and `Terminating` of Instances. 
+
 # Issues
+
+- Running the `Jenkins server` and the `all the tests` on a `T2Micro EC2` will fail and `possibly crash` the EC2 during the `Cypress test` because there is `not enough resources`(CPU and MEM) to do everything at once. 
+
+- Any code not up to `Pylint's standard` in [application.py](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/application.py) will throw a `"error"` and fail the test breaking the `rest of the chain` even if the error in question is `just a style thing` and `not a real error`. 
