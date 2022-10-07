@@ -431,6 +431,8 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     </details>
 
+    <details>
+
     <summary>Broke</summary>
 
     <br>
@@ -542,6 +544,8 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     - Modified Style [CSS](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/static/style.css). 
 
+    <details>
+
     <summary>Makeover</summary>
 
     <br>
@@ -579,6 +583,8 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     <details>
 
     <summary>Documentation</summary>
+
+    <br>
 
     - [Documentation](https://github.com/RichardDeodutt/Deployment-2/blob/main/README.md). 
 
