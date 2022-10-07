@@ -10,7 +10,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - These instructions use AWS. 
 
-- These instructions are for the AWS Ubuntu image. 
+- These instructions are for the AWS Ubuntu image. They assume you are running the commands as the 'ubuntu' user. 
 
 - These instructions assume you are using a jenkins server and a jenkins agent to do all the work. 
 
@@ -20,7 +20,11 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 ## Step 1: Prepare the Jenkins server EC2 if you don't have one
 
-- Create/Launch an EC2 using the AWS Console in your region of choice, `Asia Pacific (Tokyo) or ap-northeast-1` in my case.
+<details>
+
+<summary>Step by Step</summary>
+
+- Create/Launch an EC2 using the AWS Console in your region of choice, `Asia Pacific (Tokyo) or ap-northeast-1` in my case. 
 
 - Set the `Name and tags` to anything you want, `Application and OS Images (Amazon Machine Image)` to Ubuntu 64-bit (x86), `Instance type` to t2.micro. 
 
@@ -82,6 +86,12 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     sudo cat /var/lib/jenkins/secrets/initialAdminPassword
     ```
 
+</details>
+
+<details>
+
+<summary>One liner</summary>
+
  - `One liner` to do do everything above at once. 
 
     Example below: 
@@ -90,7 +100,13 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && sudo apt update && sudo apt install -y default-jre && sudo apt install -y jenkins && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
     ```
 
+</details>
+
 ## Step 2: Create a Jenkins user in your AWS account using IAM in the AWS Console
+
+<details>
+
+<summary>Step by Step</summary>
 
 - Create a user in [AWS IAM](https://us-east-1.console.aws.amazon.com/iamv2/home) for jenkins to get access with username `Eb-user` and AWS credential type of `Access key - Programmatic access`. 
 
@@ -98,13 +114,23 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - Review the changes to be made and click create user when ready and save the information provided after creation such as the `Access key ID` and `Secret access key` or download the csv with the information for future use. 
 
+</details>
+
 ## Step 3: Connect GitHub to the Jenkins server
+
+<details>
+
+<summary>Step by Step</summary>
 
 - Create/Generate a [personal access token in GitHub](https://github.com/settings/tokens) for the Jenkins server and webhook. I added all the `repo`, `admin:repo_hook` and `notifications` permissions. When done save the token for future use. 
 
 - Fork the [deployment repo](https://github.com/kura-labs-org/kuralabs_deployment_2) and using this forked repo connect it to the Jenkins server webhook in the settings of the newly forked repo. 
 
-- Connect the webhook by setting: 
+- Connect the webhook by configuring the setting as the following. 
+
+    <details>
+
+    <summary>Settings</summary>
 
     - The `Payload URL` to your Jenkins server webhook. 
 
@@ -118,10 +144,14 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     - The `Which events would you like to trigger this webhook?` to 'Send me everything.'. 
     
     - The `Active` checkbox to checked. 
+
+    </details>
     
 - Then when everything is set click `Add webhook` to connect the forked repository to the Jenkins server webhook. 
 
-## Step 4: Configure and deploy the application to Elastic Beanstalk
+</details>
+
+## Step 5: Configure and deploy the application to Elastic Beanstalk
 
 - On the Jenkins server as the 'jenkins' user run the command `AWS Configure` to configure Jenkins with the Jenkins user created through IAM. Giving the Jenkins server access to the your AWS account. 
 
@@ -129,7 +159,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - In the project directory recently entered as the 'jenkins' user run the `eb init` and `eb create` commands. 
 
-## Step 5: Add a deployment stage to the pipeline
+## Step 6: Add a deployment stage to the pipeline
 
 - On your fork created of the [deployment repo](https://github.com/kura-labs-org/kuralabs_deployment_2) edit your Jenkinsfile to add a deployment stage as. 
 
@@ -141,7 +171,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
    }
     ```
 
-## Step 6: Modify or add to the pipeline
+## Step 7: Modify or add to the pipeline
 
 - Add another test. 
 
@@ -169,7 +199,11 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 ### Deploy everything all in one (No Jenkins agents)
 
-- You can use my [all in one deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/Deployment-Scripts/allinonedeployment.sh) during EC2 creation by copying and pasting it in the userdata field to automate installing Jenkins, the AWS CLI, the AWS EB CLI on the 'jenkins' user, the cy depends and the status check after a deployment.
+<details>
+
+<summary>All In One</summary>
+
+- You can use my [all in one deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/Deployment-Scripts/allinonedeployment.sh) during EC2 creation by copying and pasting it in the userdata field to automate installing Jenkins, the Jenkins agent, the AWS CLI, the AWS EB CLI on the 'jenkins' user, the cypress dependencies and the status check after a deployment. 
 
 - If the EC2 is created already you can run one of the commands below to run my [all in one deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/Deployment-Scripts/allinonedeployment.sh). 
 
@@ -178,13 +212,19 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/allinonedeployment.sh && sudo chmod +x allinonedeployment.sh && sudo ./allinonedeployment.sh
         ```
 
-    - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-2' directory and the 'aws' directory created from the previous deployment.**
+    - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-2' directory and the 'aws' directory if it was created from a previous deployment.** 
 
         ```
         cd && sudo rm -r Deployment-2 ; sudo rm -r aws ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/allinonedeployment.sh && sudo chmod +x allinonedeployment.sh && sudo ./allinonedeployment.sh
         ```
 
+</details>
+
 ### Deploy everything in parts (With Jenkins agents)
+
+<details>
+
+<summary>Jenkins Server</summary>
 
 - Jenkins Server Part
 
@@ -192,18 +232,31 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     - If the EC2 is created already you can run the commands below to run my [jenkins deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/Deployment-Scripts/jenkinsdeployment.sh). 
 
-        ```
-        cd && sudo rm -r * ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/jenkinsdeployment.sh && sudo chmod +x jenkinsdeployment.sh && sudo ./jenkinsdeployment.sh
-        ```
+        - If this is the first time deploying, run the command below. 
+            ```
+            cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/jenkinsdeployment.sh && sudo chmod +x jenkinsdeployment.sh && sudo ./jenkinsdeployment.sh
+            ```
+
+        - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-2' directory and the 'aws' directory if it was created from a previous deployment.** 
+
+            ```
+            cd && sudo rm -r Deployment-2 ; sudo rm -r aws ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/jenkinsdeployment.sh && sudo chmod +x jenkinsdeployment.sh && sudo ./jenkinsdeployment.sh
+            ```
+
+</details>
+
+<details>
+
+<summary>Jenkins Agent</summary>
 
 - Jenkins Agent Part
 
     - The Jenkins server should automatically create this agent and you only need to configure it correctly in the Jenkins server web interface to run the correct init script below. Replace the aws configurations with your `Eb-user` credentials and region. 
 
         ```
-        cd && sudo rm -r * ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
+        cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
 
-        #Add it to path now also
+        #Update the path
         source $HOME/.bashrc
 
         #Just making sure it's installed
@@ -217,13 +270,30 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     - If the EC2 is created already you can run the commands below to run my [agent deployment script](https://github.com/RichardDeodutt/Deployment-2/blob/main/Deployment-Scripts/agentdeployment.sh). 
 
-        ```
-        cd && sudo rm -r * ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
-        ```
+        - If this is the first time deploying, run the command below. 
+            ```
+            cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
+            ```
 
-### Install parts separately
+        - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-2' directory and the 'aws' directory if it was created from a previous deployment.** 
+
+            ```
+            cd && sudo rm -r Deployment-2 ; sudo rm -r aws ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
+            ```
+
+</details>
+
+## Install parts separately
+
+<details>
+
+<summary>Parts</summary>
 
 - If you just want to install a specific part run the corresponding script below.
+
+    <details>
+
+    <summary>Install Jenkins</summary>
 
     - To install Jenkins. 
 
@@ -231,11 +301,23 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installjenkins.sh && sudo chmod +x installjenkins.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installjenkins.sh
         ```
 
+    </details>
+
+    <details>
+
+    <summary>Install Jenkins Agent</summary>
+
     - To install the Jenkins agent. 
 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installagent.sh && sudo chmod +x installagent.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installagent.sh
         ```
+
+    </details>
+
+    <details>
+
+    <summary>Install The AWS CLI</summary>
 
     - To install the AWS CLI. 
 
@@ -243,11 +325,23 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installawscli.sh && sudo chmod +x installawscli.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installawscli.sh
         ```
 
+    </details>
+
+    <details>
+
+    <summary>Install The AWS EB CLI('jenkins' User)</summary>
+
     - To install the AWS EB CLI as the 'jenkins' user. 
 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installjenkinsawsebcli.sh && sudo chmod +x installjenkinsawsebcli.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installjenkinsawsebcli.sh
         ```
+
+    </details>
+
+    <details>
+
+    <summary>Install The AWS EB CLI('ubuntu' User)</summary>
 
     - To install the AWS EB CLI as the 'ubuntu' user. 
 
@@ -255,17 +349,33 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installawsebcli.sh && sudo chmod +x installawsebcli.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installawsebcli.sh
         ```
 
-    - To install the Cy Depends.
+    </details>
+
+    <details>
+
+    <summary>Install Cypress Dependencies</summary>
+
+    - To install Cypress dependencies.
 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/installcydepends.sh && sudo chmod +x installcydepends.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installcydepends.sh
         ```
+
+    </details>
+
+    <details>
+
+    <summary>Check Deployment Status</summary>
 
     - To check the status after a deployment.
 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/statuscheck.sh && sudo chmod +x statuscheck.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-2/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./statuscheck.sh
         ```
+
+    </details>
+
+</details>
 
 # Why?
 
