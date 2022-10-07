@@ -166,6 +166,18 @@ installjenkins(){
     cat InstallJenkins.log >> $LogFile
 }
 
+#Install agent
+installagent(){
+    #Change directory to the Scripts folder
+    cd $Home/$RepositoryFolder/Scripts/
+    #Run the install agent script
+    $Home/$RepositoryFolder/Scripts/installagent.sh && logokay "Successfully installed agent through a script" || { logerror "Failure installing agent through a script" && exiterror ; }
+    #Change directory to the home folder
+    cd $Home
+    #Added the sub script logs to the deployment logs
+    cat InstallAgent.log >> $LogFile
+}
+
 #Install the AWS CLI
 installawscli(){
     #Change directory to the Scripts folder
@@ -226,15 +238,15 @@ main(){
     git clone $RepositoryURL > /dev/null 2>&1 && logokay "Successfully cloned $RepositoryURL" || logwarning "Failure cloning $RepositoryURL"
     #Install jenkins if not already
     installjenkins
-    #Install python3.10-venv if not already
-    aptinstalllog "python3.10-venv"
+    #Install agent if not already
+    installagent
     #Install the AWS CLI if not already
     installawscli
     #Install the AWS EB CLI for the jenkin's user if not already
     installjenkinsawsebcli
     #Install the Cy Depends if not already
     installcydepends
-    #Delay for 10 seconds for jenkins to load
+    #Delay for 10 seconds to load
     sleep 10
     #Status check
     statuscheck

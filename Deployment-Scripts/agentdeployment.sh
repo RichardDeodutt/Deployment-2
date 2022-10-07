@@ -232,7 +232,7 @@ main(){
     installawsebcli
     #Install the Cy Depends if not already
     installcydepends
-    #Delay for 10 seconds for jenkins to load
+    #Delay for 10 seconds to load
     sleep 10
     #Status check
     statuscheck

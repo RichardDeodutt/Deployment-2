@@ -26,13 +26,70 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - Set the `Key pair(login)` to any keypair you have access to or create one, `Network Settings` set the security group to one with ports 80, 8080 and 22 open or create one with those ports open. Launch with `default settings` for the rest is fine. 
 
-- `SSH or connect` to the ec2 when it is running and `install` the `apt` packages `default-jre` and `jenkins` on the Jenkins server EC2 you just created if it isn't already installed. 
+- `SSH or connect` to the ec2 when it is running. 
 
-    Example below:
+    Example below: 
 
     ```
-    sudo apt install default-jre && sudo apt install jenkins
+    ssh -i ~/.ssh/keyfile.pem root@13.114.28.228
     ```
+
+- `Download` the `jenkins keyring` for the package repository source list. 
+
+    Example below: 
+
+    ```
+    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg
+    ```
+
+- `Install` the `jenkins keyring` to the package repository source list. 
+
+    Example below: 
+
+    ```
+    sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+    ```
+
+- `Update` the package repository source list. 
+
+    Example below: 
+
+    ```
+    sudo apt update
+    ```
+
+- `Install` the `apt` packages `default-jre`.
+
+    Example below: 
+
+    ```
+    sudo apt install -y default-jre
+    ```
+
+- `Install` the `apt` packages `jenkins`.
+
+    Example below: 
+
+    ```
+    sudo apt install -y jenkins
+    ```
+
+ - `Get` the secret password and save it for future use.
+
+    Example below: 
+
+    ```
+    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+    ```
+
+ - `One liner` to do do everything above at once.
+
+    Example below: 
+
+    ```
+    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && sudo apt update && sudo apt install -y default-jre && sudo apt install -y jenkins && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+    ```
+
 
 ## Step 2: Create a Jenkins user in your AWS account using IAM in the AWS Console
 
