@@ -363,6 +363,8 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 <summary>Step by Step</summary>
 
+<br>
+
 - In the Jenkins server homepage click on the pipeline created and `build it` if it isn't building and or queued. This should `build`, `test` and `deploy` the application using `elastic beanstalk` so remember to take it down when done to `avoid extra cost`. 
 
 </details>
