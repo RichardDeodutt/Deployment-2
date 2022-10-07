@@ -58,7 +58,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     sudo apt update
     ```
 
-- `Install` the `apt` packages `default-jre`.
+- `Install` the `apt` packages `default-jre`. 
 
     Example below: 
 
@@ -66,7 +66,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     sudo apt install -y default-jre
     ```
 
-- `Install` the `apt` packages `jenkins`.
+- `Install` the `apt` packages `jenkins`. 
 
     Example below: 
 
@@ -74,7 +74,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     sudo apt install -y jenkins
     ```
 
- - `Get` the secret password and save it for future use.
+ - `Get` the secret password and save it for future use. 
 
     Example below: 
 
@@ -82,7 +82,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     sudo cat /var/lib/jenkins/secrets/initialAdminPassword
     ```
 
- - `One liner` to do do everything above at once.
+ - `One liner` to do do everything above at once. 
 
     Example below: 
 
@@ -90,23 +90,36 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && sudo apt update && sudo apt install -y default-jre && sudo apt install -y jenkins && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
     ```
 
-
 ## Step 2: Create a Jenkins user in your AWS account using IAM in the AWS Console
 
-- Create a user in [AWS IAM](https://us-east-1.console.aws.amazon.com/iamv2/home) for jenkins to get access called `Eb-user` with `AdministratorAccess` permissions policy. 
+- Create a user in [AWS IAM](https://us-east-1.console.aws.amazon.com/iamv2/home) for jenkins to get access with username `Eb-user` and AWS credential type of `Access key - Programmatic access`. 
 
-- Save the information provided after creation such as the `Access key ID` and `Secret access key`
+- Then select `Attach existing policies directly` and select `AdministratorAccess` permissions policy then click next tags and then next review to skip the tags and review the changes to be made. 
+
+- Review the changes to be made and click create user when ready and save the information provided after creation such as the `Access key ID` and `Secret access key` or download the csv with the information for future use. 
 
 ## Step 3: Connect GitHub to the Jenkins server
 
-- Create/Generate a [personal access token in GitHub](https://github.com/settings/tokens) for the Jenkins server and webhook. I added all the `repo`, `admin:repo_hook` and `notifications` permissions. 
+- Create/Generate a [personal access token in GitHub](https://github.com/settings/tokens) for the Jenkins server and webhook. I added all the `repo`, `admin:repo_hook` and `notifications` permissions. When done save the token for future use. 
 
-- 
+- Fork the [deployment repo](https://github.com/kura-labs-org/kuralabs_deployment_2) and using this forked repo connect it to the Jenkins server webhook in the settings of the newly forked repo. 
 
+- Connect the webhook by setting: 
 
-- Fork the [deployment repo](https://github.com/kura-labs-org/kuralabs_deployment_2) and using this repo connect it to the Jenkins server using the personal access token from GitHub by creating a Multibranch pipeline. 
+    - The `Payload URL` to your Jenkins server webhook. 
 
-- After it passed Jenkin's clone, build, and test phases connect Jenkin's webhook to the GitHub repository. 
+        Example `Payload URL`
+        ```
+        http://35.77.201.119:8080/github-webhook/
+        ```
+    
+    - The `Content type` to application/json. 
+    
+    - The `Which events would you like to trigger this webhook?` to 'Send me everything.'. 
+    
+    - The `Active` checkbox to checked. 
+    
+- Then when everything is set click `Add webhook` to connect the forked repository to the Jenkins server webhook. 
 
 ## Step 4: Configure and deploy the application to Elastic Beanstalk
 
