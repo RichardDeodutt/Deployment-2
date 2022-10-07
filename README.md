@@ -371,25 +371,25 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     <summary>Another Test</summary>
 
-    Stage below: 
+    - Stage below: 
 
-    ```
-      stage ('Pytest') {
-        steps {
-          sh '''#!/bin/bash
-            source testenv/bin/activate
-            py.test --verbose --junit-xml test-reports/pytest-results.xml
-            '''
+        ```
+        stage ('Pytest') {
+            steps {
+            sh '''#!/bin/bash
+                source testenv/bin/activate
+                py.test --verbose --junit-xml test-reports/pytest-results.xml
+                '''
+            }
+            post{
+            always {
+                junit 'test-reports/pytest-results.xml'
+            }
+            }
         }
-        post{
-          always {
-            junit 'test-reports/pytest-results.xml'
-          }
-        }
-      }
-    ```
+        ```
 
-    Added Test [Pytest](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/test_pages.py)
+    - Added Test [Pytest](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/test_pages.py). 
 
     </details>
 
@@ -399,17 +399,47 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     <summary>Notifications</summary>
 
-    Download and Install [catlight](https://catlight.io/downloads). 
+    - Download and Install [catlight](https://catlight.io/downloads). 
 
-    Add a Connection to Jenkins and enter the Jenkins server url then enter your credentials the username and password you created and connect. 
+    - Add a `Connection` to Jenkins and enter the `Jenkins server url` then enter your credentials, the `username` and `password` you created and connect. 
 
-    Once connected select the projects you want to get notifications from and Save. 
+    - Once connected select the projects you want `to get notifications from` and Save. 
 
-    It will send a desktop notification when a build fails or passes. 
+    - It will send a desktop notification when a build `fails or passes`. 
+
+    <details>
+
+    <summary>Dashboard</summary>
+
+    <br>
 
     <p align="center">
     <a href="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Dashboard.png"><img src="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Dashboard.png" />
     </p>
+
+    </details>
+
+    <details>
+
+    <summary>Notifications</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Notifications.png"><img src="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Notifications.png" />
+    </p>
+
+    </details>
+
+    <summary>Broke</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Broke.png"><img src="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Broke.png" />
+    </p>
+
+    </details>
 
     </details>
 
@@ -419,54 +449,54 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     <summary>E2E Test with Cypress</summary>
 
-    Stages below: 
+    - Stages below: 
 
-    ```
-      stage ('Build Tools') {
-        steps {
-          sh '''#!/bin/bash
-          source testenv/bin/activate
-          node --max-old-space-size=100 /usr/bin/npm install --save-dev cypress@7.6.0
-          /usr/bin/npx cypress verify
-          '''
-        }
-      }
-    ```
-
-    ```
-      stage ('Deploy') {
-        steps {
-          sh '''#!/bin/bash
-            InitCMD='$HOME/.local/bin/eb init --region ap-northeast-1 --platform python-3.8 url-shortener'
-            CreateCMD='$HOME/.local/bin/eb create url-shortener-dev -c url-shortener-dev -p python-3.8'
-            DeployCMD='$HOME/.local/bin/eb deploy url-shortener-dev'
-            $InitCMD && $CreateCMD || $DeployCMD
-            '''
-        }
-      }
-    ```
-
-    ```
-      stage ('Cypress E2E') {
-        steps {
-          sh '''#!/bin/bash
+        ```
+        stage ('Build Tools') {
+            steps {
+            sh '''#!/bin/bash
             source testenv/bin/activate
-            NO_COLOR=1 /usr/bin/npx cypress run --spec cypress/integration/test.spec.js
+            node --max-old-space-size=100 /usr/bin/npm install --save-dev cypress@7.6.0
+            /usr/bin/npx cypress verify
             '''
+            }
         }
-        post{
-          always {
-            junit 'test-reports/cypress-results.xml'
-          }
+        ```
+
+        ```
+        stage ('Deploy') {
+            steps {
+            sh '''#!/bin/bash
+                InitCMD='$HOME/.local/bin/eb init --region ap-northeast-1 --platform python-3.8 url-shortener'
+                CreateCMD='$HOME/.local/bin/eb create url-shortener-dev -c url-shortener-dev -p python-3.8'
+                DeployCMD='$HOME/.local/bin/eb deploy url-shortener-dev'
+                $InitCMD && $CreateCMD || $DeployCMD
+                '''
+            }
         }
-      }
-    ```
+        ```
 
-    Added Test [Cypress](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/cypress/integration/test.spec.js)
+        ```
+        stage ('Cypress E2E') {
+            steps {
+            sh '''#!/bin/bash
+                source testenv/bin/activate
+                NO_COLOR=1 /usr/bin/npx cypress run --spec cypress/integration/test.spec.js
+                '''
+            }
+            post{
+            always {
+                junit 'test-reports/cypress-results.xml'
+            }
+            }
+        }
+        ```
 
-    Added Config [Cypress](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/cypress.json)
+    - Added Test [Cypress](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/cypress/integration/test.spec.js). 
 
-    Modified Fixed [Jenkinsfile](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/Jenkinsfile)
+    - Added Config [Cypress](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/cypress.json). 
+
+    - Modified Fixed [Jenkinsfile](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/Jenkinsfile). 
 
     </details>
 
@@ -476,27 +506,27 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     <summary>Linter</summary>
 
-    Stage below: 
+    - Stage below: 
 
-    ```
-      stage ('Pylint') {
-        steps {
-          sh '''#!/bin/bash
-            source testenv/bin/activate
-            pylint --output-format=text,pylint_junit.JUnitReporter:test-reports/pylint-results.xml application.py
-            '''
+        ```
+        stage ('Pylint') {
+            steps {
+            sh '''#!/bin/bash
+                source testenv/bin/activate
+                pylint --output-format=text,pylint_junit.JUnitReporter:test-reports/pylint-results.xml application.py
+                '''
+            }
+            post{
+            always {
+                junit 'test-reports/pylint-results.xml'
+            }
+            }
         }
-        post{
-          always {
-            junit 'test-reports/pylint-results.xml'
-          }
-        }
-      }
-    ```
+        ```
 
-    Modified Pip [Requirements](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/requirements.txt)
+    - Modified Pip [Requirements](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/requirements.txt). 
 
-    Modified Fixed [Application](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/application.py)
+    - Modified Fixed [Application](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/application.py). 
 
     </details>
 
@@ -506,15 +536,37 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     <summary>Changes</summary>
 
-    Modified Template [Base](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/templates/base.html)
+    - Modified Template [Base](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/templates/base.html). 
 
-    Modified Template [Home](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/templates/home.html)
+    - Modified Template [Home](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/templates/home.html). 
 
-    Modified Style [CSS](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/static/style.css)
+    - Modified Style [CSS](https://github.com/RichardDeodutt/Deployment-2/blob/main/Modified-Application-Files/static/style.css). 
+
+    <summary>Makeover</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Makeover.png"><img src="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Makeover.png" />
+    </p>
+
+    </details>
 
     </details>
 
 - Once done appy the changes and build the pipeline again. 
+
+    <details>
+
+    <summary>Build</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Build.png"><img src="https://github.com/RichardDeodutt/Deployment-2/blob/main/Images/Build.png" />
+    </p>
+
+    </details>
 
 ## Step 11: Diagram the new pipeline
 
@@ -523,6 +575,14 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 ## Step 12: Create documentation
 
 - Create documentation of everything. 
+
+    <details>
+
+    <summary>Documentation</summary>
+
+    - [Documentation](https://github.com/RichardDeodutt/Deployment-2/blob/main/README.md). 
+
+    </details>
 
 # Shortcuts
 
